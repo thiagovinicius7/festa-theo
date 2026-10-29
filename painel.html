@@ -55,6 +55,17 @@ li .x{border:none;background:none;color:var(--tinta-suave);font-size:.78rem;text
 .capaAcoes{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
 .capaAcoes label.btn{cursor:pointer}
 .capaAcoes button:disabled{opacity:.5;cursor:not-allowed}
+details.grupo{border:2px solid var(--borda);border-radius:12px;margin-bottom:10px;background:var(--campo)}
+details.grupo summary{cursor:pointer;padding:12px 14px;font-weight:800;list-style:none;display:flex;justify-content:space-between}
+details.grupo summary::after{content:"▾";transition:transform .2s}
+details.grupo[open] summary::after{transform:rotate(180deg)}
+.campos{padding:0 14px 12px;display:grid;gap:10px}
+.campo label{display:block;font-size:.8rem;font-weight:800;color:var(--tinta-suave);margin-bottom:4px}
+.campo input,.campo textarea{width:100%;border:2px solid var(--borda);border-radius:10px;padding:9px 11px;font:inherit;background:#fff}
+.campo textarea{min-height:60px;resize:vertical}
+.campo input.mudou,.campo textarea.mudou{border-color:var(--laranja)}
+.txAcoes{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.txAcoes a.btn{text-decoration:none;display:inline-block}
 .capaMsg{font-size:.85rem;color:var(--tinta-suave)}
 .capaMsg.ok{color:#2e9d6a;font-weight:700}.capaMsg.erro{color:var(--erro);font-weight:700}
 </style>
@@ -97,6 +108,18 @@ li .x{border:none;background:none;color:var(--tinta-suave);font-size:.78rem;text
     </section>
 
     <section class="cartao">
+      <h2 class="tit">Textos do convite</h2>
+      <p class="capaMsg" style="margin-bottom:10px">Altere o que quiser e toque em "Salvar textos". Campo vazio volta ao texto original.</p>
+      <div id="textosForm"></div>
+      <div class="txAcoes">
+        <button class="btn" id="txSalvar">Salvar textos</button>
+        <button class="btn sec" id="txPadrao">Restaurar todos os originais</button>
+        <a class="btn sec" href="./" target="_blank" rel="noopener">Ver convite ↗</a>
+      </div>
+      <p class="capaMsg" id="txMsg"></p>
+    </section>
+
+    <section class="cartao">
       <h2 class="tit">Foto da capa</h2>
       <div class="capaBox">
         <img id="capaPrev" src="capa.jpg" alt="Capa atual do convite">
@@ -114,6 +137,7 @@ li .x{border:none;background:none;color:var(--tinta-suave);font-size:.78rem;text
 
 <script type="module">
 import { firebaseConfig, EMAILS_PAINEL, COLECAO, COLECAO_CONFIG } from './firebase-config.js';
+import { TEXTOS, PADROES } from './textos.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, collection, onSnapshot, deleteDoc, doc, setDoc, getDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
@@ -186,6 +210,61 @@ function setAba(a) {
 $('abaVao').onclick = () => setAba('vao');
 $('abaNao').onclick = () => setAba('nao');
 $('busca').oninput = desenha;
+
+/* ---------- Textos do convite ---------- */
+const textosRef = doc(db, COLECAO_CONFIG, 'textos');
+function montaTextos(salvos = {}) {
+  const box = $('textosForm'); box.innerHTML = '';
+  const grupos = [...new Set(TEXTOS.map(t => t.g))];
+  grupos.forEach((g, gi) => {
+    const det = document.createElement('details'); det.className = 'grupo'; if (gi === 0) det.open = true;
+    const sum = document.createElement('summary'); sum.textContent = g; det.append(sum);
+    const campos = document.createElement('div'); campos.className = 'campos';
+    for (const t of TEXTOS.filter(x => x.g === g)) {
+      const c = document.createElement('div'); c.className = 'campo';
+      const l = document.createElement('label'); l.textContent = t.rot; l.htmlFor = 'tx_' + t.k;
+      const inp = document.createElement(t.longo ? 'textarea' : 'input');
+      if (!t.longo) inp.type = t.tipo || 'text';
+      inp.id = 'tx_' + t.k; inp.dataset.k = t.k;
+      inp.value = salvos[t.k] ?? t.padrao;
+      if (!t.tipo) inp.placeholder = t.padrao;
+      inp.maxLength = 300;
+      const marca = () => inp.classList.toggle('mudou', inp.value.trim() !== '' && inp.value !== t.padrao);
+      inp.addEventListener('input', marca); marca();
+      c.append(l, inp); campos.append(c);
+    }
+    det.append(campos); box.append(det);
+  });
+}
+async function carregaTextos() {
+  try {
+    const snap = await getDoc(textosRef);
+    montaTextos(snap.exists() ? (snap.data().textos || {}) : {});
+  } catch (e) { montaTextos(); }
+}
+onAuthStateChanged(auth, u => { if (u && EMAILS_PAINEL.includes((u.email || '').toLowerCase())) carregaTextos(); });
+
+$('txSalvar').onclick = async () => {
+  const textos = {};
+  document.querySelectorAll('#textosForm [data-k]').forEach(inp => {
+    const v = inp.value.trim();
+    if (v && v !== PADROES[inp.dataset.k]) textos[inp.dataset.k] = v.slice(0, 300);
+  });
+  const m = $('txMsg'); m.className = 'capaMsg'; m.textContent = 'Salvando…';
+  try {
+    await setDoc(textosRef, { textos, quando: serverTimestamp() });
+    m.className = 'capaMsg ok'; m.textContent = 'Textos salvos! Já aparecem no convite.';
+    carregaTextos();
+  } catch (err) { m.className = 'capaMsg erro'; m.textContent = 'Não foi possível salvar (' + (err.code || err.message) + ').'; }
+};
+$('txPadrao').onclick = async () => {
+  if (!confirm('Voltar todos os textos para os originais?')) return;
+  const m = $('txMsg');
+  try {
+    await deleteDoc(textosRef);
+    montaTextos(); m.className = 'capaMsg ok'; m.textContent = 'Pronto, textos originais restaurados.';
+  } catch (err) { m.className = 'capaMsg erro'; m.textContent = 'Não foi possível (' + (err.code || err.message) + ').'; }
+};
 
 /* ---------- Foto da capa (1536 × 2752, ≈9:16) ---------- */
 const CAPA_L = 1536, CAPA_A = 2752;

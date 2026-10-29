@@ -239,25 +239,25 @@ footer{position:relative;z-index:1;text-align:center;font-size:.8rem;color:var(-
       <img id="capaImg" src="capa.jpg" alt="" onerror="document.getElementById('capa').remove()">
       <span class="nuvem-capa c1"></span><span class="nuvem-capa c2"></span><span class="nuvem-capa c3"></span>
     </figure>
-    <span class="faixa">VOCÊ FOI CONVOCADO</span>
+    <span class="faixa" data-t="faixa">VOCÊ FOI CONVOCADO</span>
     <h1 class="titulo" aria-label="Avatar Theo, 8 anos">
-      <span class="av">AVATAR</span>
-      <span class="nm">Theo</span>
-      <span class="selo" aria-hidden="true"><span><b>8</b><small>ANOS</small><i class="pontos"><i style="--c:var(--fogo)"></i><i style="--c:var(--ar)"></i><i style="--c:var(--terra)"></i><i style="--c:var(--agua)"></i></i></span></span>
+      <span class="av" data-t="av">AVATAR</span>
+      <span class="nm" data-t="nm">Theo</span>
+      <span class="selo" aria-hidden="true"><span><b data-t="seloNum">8</b><small data-t="seloTxt">ANOS</small><i class="pontos"><i style="--c:var(--fogo)"></i><i style="--c:var(--ar)"></i><i style="--c:var(--terra)"></i><i style="--c:var(--agua)"></i></i></span></span>
     </h1>
-    <p class="lema">Treinamento dos quatro elementos<small>Venha aprender kung fu com o mestre aniversariante!</small></p>
+    <p class="lema"><span data-t="lema">Treinamento dos quatro elementos</span><small data-t="lemaSub">Venha aprender kung fu com o mestre aniversariante!</small></p>
 
     <div class="elementos">
       <div class="el fogo">
         <div class="disco"><svg viewBox="0 0 40 40">
           <path class="chama" d="M20 37c-8 0-12-6-11-12 1-5 5-7 5-12 4 3 5 6 5 9 1-3 3-5 3-10 6 4 10 10 9 16-1 5-5 9-11 9z" fill="#e2552b"/>
           <path class="chama2" d="M20 36c-4 0-6-3-5-6 0-3 3-4 3-7 2 2 3 4 3 6 1-1 2-3 2-5 3 3 4 6 3 8-1 3-3 4-6 4z" fill="#ffc24a"/>
-        </svg></div><span>FOGO</span>
+        </svg></div><span data-t="elFogo">FOGO</span>
       </div>
       <div class="el ar">
         <div class="disco"><svg viewBox="0 0 40 40"><g class="giro">
           <path d="M20 6a14 14 0 1 1-14 14a10 10 0 0 1 10-10a7 7 0 0 1 7 7a4 4 0 0 1-4 4" fill="none" stroke="#e8b93c" stroke-width="3.2" stroke-linecap="round"/>
-        </g></svg></div><span>AR</span>
+        </g></svg></div><span data-t="elAr">AR</span>
       </div>
       <div class="el terra">
         <div class="disco"><svg viewBox="0 0 40 40">
@@ -265,68 +265,68 @@ footer{position:relative;z-index:1;text-align:center;font-size:.8rem;color:var(-
           <path class="pedra" d="M13 22 L16 14 L25 13 L28 21 L22 25 Z" fill="#5f8a3a"/>
           <path class="pedra p2" d="M6 14 L9 9 L13 11 L12 15 Z" fill="#8a6a45"/>
           <path class="pedra p3" d="M29 9 L33 7 L35 11 L31 13 Z" fill="#8a6a45"/>
-        </svg></div><span>TERRA</span>
+        </svg></div><span data-t="elTerra">TERRA</span>
       </div>
       <div class="el agua">
         <div class="disco"><svg viewBox="0 0 40 40">
           <g class="onda o2"><path d="M0 22 q5-5 10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 v20 h-70z" fill="#8cc4ec"/></g>
           <g class="onda"><path d="M0 26 q5-5 10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 v20 h-70z" fill="#2f7fc1"/></g>
           <path d="M20 5c-4 6-6 9-6 12a6 6 0 0 0 12 0c0-3-2-6-6-12z" fill="#2f7fc1"/>
-        </svg></div><span>ÁGUA</span>
+        </svg></div><span data-t="elAgua">ÁGUA</span>
       </div>
     </div>
   </header>
 
   <section class="pergaminho" aria-label="Detalhes da festa">
     <div class="infos">
-      <div class="info"><div class="ic">📜</div><strong>30/11</strong><span>segunda-feira</span></div>
-      <div class="info"><div class="ic">🏮</div><strong>16h</strong><span>início do treino</span></div>
-      <div class="info"><div class="ic">⛩️</div><strong>Sítio Geranium</strong><span>o templo</span></div>
+      <div class="info"><div class="ic">📜</div><strong data-t="infoData">30/11</strong><span data-t="infoDataSub">segunda-feira</span></div>
+      <div class="info"><div class="ic">🏮</div><strong data-t="infoHora">16h</strong><span data-t="infoHoraSub">início do treino</span></div>
+      <div class="info"><div class="ic">⛩️</div><strong data-t="infoLocal">Sítio Geranium</strong><span data-t="infoLocalSub">o templo</span></div>
     </div>
     <div class="contagem" id="contagem" aria-live="polite">
-      <div><b id="cd-d">--</b><small>dias</small></div>
-      <div><b id="cd-h">--</b><small>horas</small></div>
-      <div><b id="cd-m">--</b><small>min</small></div>
-      <div><b id="cd-s">--</b><small>seg</small></div>
+      <div><b id="cd-d">--</b><small data-t="cdD">dias</small></div>
+      <div><b id="cd-h">--</b><small data-t="cdH">horas</small></div>
+      <div><b id="cd-m">--</b><small data-t="cdM">min</small></div>
+      <div><b id="cd-s">--</b><small data-t="cdS">seg</small></div>
     </div>
-    <p class="dica">🥋 Venha com roupa confortável para treinar!</p>
+    <p class="dica" data-t="dica">🥋 Venha com roupa confortável para treinar!</p>
   </section>
 
   <section class="pergaminho">
-    <h2>Confirme sua presença</h2>
-    <p class="sub">Todo discípulo precisa se inscrever no treino 🙏</p>
+    <h2 data-t="formTit">Confirme sua presença</h2>
+    <p class="sub" data-t="formSub">Todo discípulo precisa se inscrever no treino 🙏</p>
 
     <form id="form" novalidate>
-      <label class="rot" for="nome">Nome do convidado (ou da família)</label>
-      <input type="text" id="nome" autocomplete="name" placeholder="Ex.: Família Souza" maxlength="120" required>
+      <label class="rot" for="nome" data-t="lblNome">Nome do convidado (ou da família)</label>
+      <input type="text" id="nome" autocomplete="name" placeholder="Ex.: Família Souza" data-tph="phNome" maxlength="120" required>
 
-      <label class="rot">Você vai?</label>
+      <label class="rot" data-t="lblVai">Você vai?</label>
       <div class="escolha" role="group" aria-label="Vai à festa?">
-        <button type="button" id="sim" aria-pressed="true">🥋 Vou treinar!</button>
-        <button type="button" id="nao" aria-pressed="false">Não poderei</button>
+        <button type="button" id="sim" aria-pressed="true" data-t="btnSim">🥋 Vou treinar!</button>
+        <button type="button" id="nao" aria-pressed="false" data-t="btnNao">Não poderei</button>
       </div>
 
       <div id="blocoPessoas">
-        <label class="rot">Quantas pessoas vão? <span style="font-weight:600;color:var(--tinta-suave)">(conte todo mundo, inclusive você)</span></label>
+        <label class="rot"><span data-t="lblPessoas">Quantas pessoas vão?</span> <span style="font-weight:600;color:var(--tinta-suave)" data-t="lblPessoasSub">(conte todo mundo, inclusive você)</span></label>
         <div class="pessoas">
           <div class="linha" style="--c:var(--agua)">
-            <div class="tx"><strong>Crianças</strong><span>menores de 10 anos</span></div>
+            <div class="tx"><strong data-t="criancas">Crianças</strong><span data-t="criancasSub">menores de 10 anos</span></div>
             <div class="passo"><button type="button" data-alvo="criancas" data-d="-1" aria-label="Menos crianças">−</button><output id="criancas">0</output><button type="button" data-alvo="criancas" data-d="1" aria-label="Mais crianças">+</button></div>
           </div>
           <div class="linha" style="--c:var(--terra)">
-            <div class="tx"><strong>Adolescentes</strong><span>de 10 a 17 anos</span></div>
+            <div class="tx"><strong data-t="adolescentes">Adolescentes</strong><span data-t="adolescentesSub">de 10 a 17 anos</span></div>
             <div class="passo"><button type="button" data-alvo="adolescentes" data-d="-1" aria-label="Menos adolescentes">−</button><output id="adolescentes">0</output><button type="button" data-alvo="adolescentes" data-d="1" aria-label="Mais adolescentes">+</button></div>
           </div>
           <div class="linha" style="--c:var(--fogo)">
-            <div class="tx"><strong>Adultos</strong><span>18 anos ou mais</span></div>
+            <div class="tx"><strong data-t="adultos">Adultos</strong><span data-t="adultosSub">18 anos ou mais</span></div>
             <div class="passo"><button type="button" data-alvo="adultos" data-d="-1" aria-label="Menos adultos">−</button><output id="adultos">0</output><button type="button" data-alvo="adultos" data-d="1" aria-label="Mais adultos">+</button></div>
           </div>
         </div>
-        <p class="total">Total: <b id="total">0</b> discípulo(s)</p>
+        <p class="total"><span data-t="totalAntes">Total:</span> <b id="total">0</b> <span data-t="totalDepois">discípulo(s)</span></p>
       </div>
 
-      <label class="rot" for="recado">Recado para o Avatar Theo <span style="font-weight:600;color:var(--tinta-suave)">(opcional)</span></label>
-      <textarea id="recado" maxlength="500" placeholder="Deixe uma mensagem…"></textarea>
+      <label class="rot" for="recado"><span data-t="lblRecado">Recado para o Avatar Theo</span> <span style="font-weight:600;color:var(--tinta-suave)" data-t="lblRecadoSub">(opcional)</span></label>
+      <textarea id="recado" maxlength="500" placeholder="Deixe uma mensagem…" data-tph="phRecado"></textarea>
 
       <button class="enviar" type="submit" id="btn">Confirmar presença</button>
       <p class="msg" id="msg" role="status"></p>
@@ -334,7 +334,7 @@ footer{position:relative;z-index:1;text-align:center;font-size:.8rem;color:var(-
   </section>
 </main>
 
-<footer>Avatar Theo · 8 anos · 30 de novembro · 16h · Sítio Geranium</footer>
+<footer data-t="rodape">Avatar Theo · 8 anos · 30 de novembro · 16h · Sítio Geranium</footer>
 
 <div class="uniao" id="uniao" role="dialog" aria-modal="true" aria-labelledby="okTitulo">
   <div>
@@ -344,18 +344,31 @@ footer{position:relative;z-index:1;text-align:center;font-size:.8rem;color:var(-
       <div class="bola ar">🌪️</div>
       <div class="bola terra">🪨</div>
       <div class="bola agua">💧</div>
-      <div class="centro">8</div>
+      <div class="centro" data-t="okCentro">8</div>
     </div>
     <div class="caixa">
       <h3 id="okTitulo">Presença confirmada!</h3>
       <p id="okTexto">Você está no treino. Até dia 30!</p>
-      <button class="voltar" type="button" id="voltar">Alterar resposta</button>
+      <button class="voltar" type="button" id="voltar" data-t="btnVoltar">Alterar resposta</button>
     </div>
   </div>
 </div>
 
 <script type="module">
 import { firebaseConfig, COLECAO, COLECAO_CONFIG } from './firebase-config.js';
+import { PADROES } from './textos.js';
+
+/* Textos: padrão + o que foi salvo no painel */
+const TX = { ...PADROES };
+const T = (k, vars = {}) => String(TX[k] ?? '').replace(/\{(\w+)\}/g, (_, v) => vars[v] ?? '');
+function aplicaTextos() {
+  document.querySelectorAll('[data-t]').forEach(el => { el.textContent = T(el.dataset.t); });
+  document.querySelectorAll('[data-tph]').forEach(el => { el.placeholder = T(el.dataset.tph); });
+  document.title = T('tituloAba');
+  const h1 = document.querySelector('.titulo');
+  if (h1) h1.setAttribute('aria-label', `${T('av')} ${T('nm')}, ${T('seloNum')} ${T('seloTxt')}`);
+  if (typeof setVai === 'function') setVai(vai);
+}
 
 /* Brasas subindo e pétalas caindo */
 const part = document.getElementById('particulas');
@@ -377,11 +390,12 @@ for (let i = 0; i < 8; i++) {
 }
 
 /* Contagem regressiva */
-const alvo = new Date('2026-11-30T16:00:00-03:00').getTime();
+let alvo = new Date(T('dataHora') + ':00-03:00').getTime();
+let relogio = null;
 const pad = n => String(n).padStart(2, '0');
 function tique() {
   let s = Math.max(0, Math.floor((alvo - Date.now()) / 1000));
-  if (s === 0) { document.getElementById('contagem').innerHTML = '<div style="padding:10px 16px"><b>É hoje! 🎉</b></div>'; return; }
+  if (s === 0) { const c = document.getElementById('contagem'); c.innerHTML = '<div style="padding:10px 16px"><b></b></div>'; c.querySelector('b').textContent = T('cdHoje'); return; }
   const d = Math.floor(s / 86400); s %= 86400;
   const h = Math.floor(s / 3600); s %= 3600;
   const m = Math.floor(s / 60); s %= 60;
@@ -389,7 +403,7 @@ function tique() {
   document.getElementById('cd-h').textContent = pad(h);
   document.getElementById('cd-m').textContent = pad(m);
   document.getElementById('cd-s').textContent = pad(s);
-  setTimeout(tique, 1000);
+  relogio = setTimeout(tique, 1000);
 }
 tique();
 
@@ -411,7 +425,7 @@ function setVai(v) {
   $('sim').setAttribute('aria-pressed', v);
   $('nao').setAttribute('aria-pressed', !v);
   $('blocoPessoas').classList.toggle('oculto', !v);
-  $('btn').textContent = v ? 'Confirmar presença' : 'Enviar resposta';
+  $('btn').textContent = v ? T('btnEnviar') : T('btnEnviarNao');
 }
 $('sim').onclick = () => setVai(true);
 $('nao').onclick = () => setVai(false);
@@ -437,6 +451,20 @@ function getDb() {
   return dbPromise;
 }
 
+/* Textos salvos no painel */
+aplicaTextos();
+if (configurado) {
+  getDb().then(async ({ db, fs }) => {
+    const snap = await fs.getDoc(fs.doc(db, COLECAO_CONFIG, 'textos'));
+    if (!snap.exists()) return;
+    const salvos = snap.data().textos || {};
+    for (const k in salvos) if (k in PADROES && typeof salvos[k] === 'string' && salvos[k].trim() !== '') TX[k] = salvos[k];
+    aplicaTextos();
+    const novo = new Date(T('dataHora') + ':00-03:00').getTime();
+    if (!isNaN(novo)) { alvo = novo; clearTimeout(relogio); tique(); }
+  }).catch(e => console.warn('Textos padrão mantidos:', e));
+}
+
 /* Foto da capa trocada pelo painel (se houver) — pode vir dividida em partes */
 if (configurado) {
   getDb().then(async ({ db, fs }) => {
@@ -459,8 +487,8 @@ $('form').addEventListener('submit', async ev => {
   const msg = $('msg'); msg.className = 'msg'; msg.textContent = '';
   const nome = $('nome').value.trim();
   const total = qtd.criancas + qtd.adolescentes + qtd.adultos;
-  if (nome.length < 2) { msg.className = 'msg erro'; msg.textContent = 'Escreva o nome do convidado 🙂'; $('nome').focus(); return; }
-  if (vai && total < 1) { msg.className = 'msg erro'; msg.textContent = 'Conte quantas pessoas vão (use o +).'; return; }
+  if (nome.length < 2) { msg.className = 'msg erro'; msg.textContent = T('erroNome'); $('nome').focus(); return; }
+  if (vai && total < 1) { msg.className = 'msg erro'; msg.textContent = T('erroPessoas'); return; }
 
   const dados = {
     nome, vai,
@@ -471,7 +499,7 @@ $('form').addEventListener('submit', async ev => {
   };
   dados.total = dados.criancas + dados.adolescentes + dados.adultos;
 
-  $('btn').disabled = true; $('btn').textContent = 'Enviando…';
+  $('btn').disabled = true; $('btn').textContent = T('btnEnviando');
   try {
     if (configurado) {
       const { db, fs } = await getDb();
@@ -480,16 +508,14 @@ $('form').addEventListener('submit', async ev => {
       await new Promise(r => setTimeout(r, 700)); // modo de pré-visualização
     }
     try { localStorage.setItem('festaTheo8', JSON.stringify({ nome, vai, qtd, recado: dados.recado })); } catch (e) {}
-    $('okTitulo').textContent = vai ? 'Presença confirmada!' : 'Resposta enviada';
-    $('okTexto').textContent = vai
-      ? `${dados.total} discípulo(s) inscrito(s) no treinamento. Até dia 30, às 16h!`
-      : 'Que pena! Obrigado por avisar. O Avatar Theo vai sentir sua falta.';
+    $('okTitulo').textContent = vai ? T('okTitSim') : T('okTitNao');
+    $('okTexto').textContent = vai ? T('okTxtSim', { total: dados.total }) : T('okTxtNao');
     const u = $('uniao'); u.classList.remove('on'); void u.offsetWidth; u.classList.add('on');
     $('voltar').focus();
   } catch (e) {
     console.error(e);
     msg.className = 'msg erro';
-    msg.textContent = 'Não deu para enviar agora. Confira a internet e tente de novo.';
+    msg.textContent = T('erroEnvio');
   } finally {
     $('btn').disabled = false; setVai(vai);
   }

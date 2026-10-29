@@ -6,6 +6,7 @@ Convite com confirmação de presença (GitHub Pages + Firebase).
 - `painel.html`: lista e totais, que só abre com login Google autorizado
 - `firebase-config.js`: configuração do Firebase e e-mails do painel
 - `firestore.rules`: regras de segurança (convidado só grava; só você lê)
+- `textos.js`: lista dos textos editáveis no painel (com os textos originais)
 
 ## Configuração
 
