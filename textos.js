@@ -67,6 +67,7 @@ export const TEXTOS = [
 
   // Rodapé
   { g: 'Rodapé e aba', k: 'rodape', rot: 'Rodapé', padrao: 'Avatar Theo · 8 anos · 30 de novembro · 16h · Sítio Geranium', longo: true },
+  { g: 'Rodapé e aba', k: 'dicaMusica', rot: 'Balão do botão de música', padrao: 'Toque para ouvir a música 🎵' },
   { g: 'Rodapé e aba', k: 'tituloAba', rot: 'Título da aba do navegador', padrao: 'Avatar Theo – 8 anos' },
 ];
 

@@ -200,7 +200,22 @@ textarea{resize:vertical;min-height:70px}
 .uniao .voltar{margin-top:18px;border:2px solid var(--ouro-claro);background:transparent;color:var(--ouro-claro);
   border-radius:999px;padding:10px 20px;font-weight:800;cursor:pointer}
 
-footer{position:relative;z-index:1;text-align:center;font-size:.8rem;color:var(--tinta-suave);padding:24px 16px 28px}
+/* Botão de música */
+.musica{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:20;width:56px;height:56px;border-radius:50%;
+  border:3px solid var(--ouro-claro);background:linear-gradient(180deg,#c63d33,var(--vermelho));color:var(--papel-claro);
+  font-size:1.5rem;font-weight:900;cursor:pointer;box-shadow:0 4px 0 var(--vermelho-esc),0 10px 20px #3a241455;
+  display:grid;place-items:center;animation:chama 2.2s ease-in-out infinite}
+.musica .ic{line-height:1;font-size:1.4rem}
+.musica.on{animation:none;background:linear-gradient(180deg,#2f7fc1,#1f5e94);box-shadow:0 4px 0 #17476f,0 0 0 6px #2f7fc133}
+.musica.on .ic{font-size:.95rem;letter-spacing:-2px}
+.musica.carregando{opacity:.6}
+.musica:active{transform:translateY(3px)}
+@keyframes chama{0%,100%{transform:scale(1)}50%{transform:scale(1.1);box-shadow:0 4px 0 var(--vermelho-esc),0 0 0 10px #b3322a26}}
+.dicaMusica{position:fixed;right:82px;bottom:calc(30px + env(safe-area-inset-bottom));z-index:20;background:var(--tinta);color:var(--papel-claro);
+  font-size:.82rem;font-weight:700;padding:7px 12px;border-radius:999px;box-shadow:0 6px 14px #0003;transition:opacity .5s,transform .5s;pointer-events:none}
+.dicaMusica::after{content:"";position:absolute;right:-6px;top:50%;margin-top:-6px;border:6px solid transparent;border-right:0;border-left-color:var(--tinta)}
+.dicaMusica.sumiu{opacity:0;transform:translateX(10px)}
+footer{position:relative;z-index:1;text-align:center;font-size:.8rem;color:var(--tinta-suave);padding:24px 16px 90px}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}
@@ -522,5 +537,8 @@ $('form').addEventListener('submit', async ev => {
 });
 $('voltar').onclick = () => $('uniao').classList.remove('on');
 </script>
+<button class="musica" id="btnMusica" type="button" aria-pressed="false" aria-label="Tocar música"><span class="ic">♪</span></button>
+<span class="dicaMusica" id="dicaMusica" data-t="dicaMusica">Toque para ouvir a música 🎵</span>
+<script type="module" src="musica.js"></script>
 </body>
 </html>

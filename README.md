@@ -7,6 +7,7 @@ Convite com confirmação de presença (GitHub Pages + Firebase).
 - `firebase-config.js`: configuração do Firebase e e-mails do painel
 - `firestore.rules`: regras de segurança (convidado só grava; só você lê)
 - `textos.js`: lista dos textos editáveis no painel (com os textos originais)
+- `musica.js`: botão de música (toca `musica.mp3` se existir; senão, melodia gerada no navegador)
 
 ## Configuração
 
