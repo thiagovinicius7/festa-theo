@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Avatar Theo – 8 anos</title>
+<meta name="description" content="Treinamento dos quatro elementos! Confirme sua presença: 30/11, 16h, Sítio Geranium.">
+<meta property="og:title" content="Avatar Theo – 8 anos 🔥🌪️🪨💧">
+<meta property="og:description" content="Treinamento dos quatro elementos · 30/11 às 16h no Sítio Geranium. Toque para confirmar!">
+<meta name="theme-color" content="#8e2a21">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='12' fill='%23b3322a'/%3E%3Ctext x='32' y='45' font-size='36' text-anchor='middle' fill='%23f6e2b3' font-family='Georgia' font-weight='bold'%3E8%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Cinzel:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --papel:#f6e7c8; --papel2:#ecd5a6; --papel-claro:#fff8e8;
+  --vermelho:#b3322a; --vermelho-esc:#7e1f19; --ouro:#d9a441; --ouro-claro:#f3d58a;
+  --tinta:#3a2414; --tinta-suave:#6e5238; --borda:#e2c690;
+  --fogo:#e2552b; --ar:#c99412; --terra:#5f8a3a; --agua:#2f7fc1;
+  --erro:#b3322a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{
+  font-family:'Nunito',system-ui,sans-serif;color:var(--tinta);overflow-x:hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%,#fff3d6 0%,transparent 60%),
+    linear-gradient(180deg,#d7ebf5 0%,#f1e3c2 35%,#f0c98a 70%,#d9a06a 100%) fixed;
+}
+button,input,textarea{font:inherit;color:inherit}
+
+/* ---------- Cenário: montanhas, névoa, lanternas, brasas ---------- */
+.cena{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.solpoente{position:absolute;left:50%;top:22%;width:300px;height:300px;margin-left:-150px;border-radius:50%;
+  background:radial-gradient(circle,#ffe6a8 0%,#f7b45a 45%,#f7b45a00 70%);opacity:.8;animation:respira 7s ease-in-out infinite}
+@keyframes respira{50%{transform:scale(1.07);opacity:.95}}
+.montes{position:absolute;left:0;right:0;bottom:0;width:100%;height:46vh}
+.nevoa{position:absolute;left:-50%;width:200%;height:70px;border-radius:50%;
+  background:radial-gradient(ellipse,#fff6e3cc 0%,#fff6e300 70%);animation:deriva 26s ease-in-out infinite alternate}
+.nevoa.a{bottom:24vh}.nevoa.b{bottom:12vh;animation-duration:34s;animation-delay:-10s;opacity:.8}
+@keyframes deriva{to{transform:translateX(18%)}}
+
+.lanterna{position:absolute;top:-6px;width:46px;transform-origin:50% 0;animation:balanco 4s ease-in-out infinite}
+.lanterna.e{left:14px}.lanterna.d{right:14px;animation-delay:-2s}
+@keyframes balanco{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.lanterna .luz{animation:brilho 2.4s ease-in-out infinite}
+@keyframes brilho{50%{opacity:.55}}
+
+.brasa{position:absolute;bottom:-10px;width:6px;height:6px;border-radius:50%;
+  background:radial-gradient(circle,#ffd27a,#e2552b);box-shadow:0 0 8px #ff9b3d;animation:sobe linear infinite}
+@keyframes sobe{
+  0%{transform:translate(0,0);opacity:0}10%{opacity:1}
+  50%{transform:translate(20px,-50vh)}
+  100%{transform:translate(-10px,-105vh);opacity:0}
+}
+.petala{position:absolute;top:-20px;width:12px;height:9px;border-radius:60% 0 60% 0;background:#f2a1a8;opacity:.85;animation:cai linear infinite}
+@keyframes cai{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(-30vw,110vh) rotate(540deg)}}
+
+/* ---------- Conteúdo ---------- */
+main{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:30px 16px 64px}
+.topo{text-align:center;padding:64px 0 10px}
+.faixa{display:inline-block;font-family:'Cinzel',serif;font-weight:700;letter-spacing:.2em;font-size:.72rem;color:var(--papel-claro);
+  background:var(--vermelho);padding:7px 18px;clip-path:polygon(8% 0,92% 0,100% 50%,92% 100%,8% 100%,0 50%)}
+.titulo{margin-top:16px;position:relative}
+.titulo .av{display:block;font-family:'Cinzel',serif;font-weight:900;letter-spacing:.32em;font-size:clamp(1.3rem,6vw,1.8rem);
+  color:var(--vermelho-esc);padding-left:.32em;animation:surge .9s ease-out both}
+.titulo .nm{display:block;font-family:'Kaushan Script',cursive;font-size:clamp(4.6rem,24vw,7.4rem);line-height:.9;
+  color:var(--vermelho);text-shadow:3px 3px 0 var(--ouro-claro),6px 6px 0 #7e1f1933;animation:pincel 1.2s .2s cubic-bezier(.2,.9,.2,1) both}
+@keyframes surge{from{opacity:0;transform:translateY(-12px)}}
+@keyframes pincel{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
+.selo{position:absolute;right:6%;bottom:2px;width:64px;height:64px;border-radius:10px;background:var(--vermelho);
+  color:var(--papel-claro);display:grid;place-items:center;transform:rotate(-12deg);box-shadow:0 4px 0 var(--vermelho-esc);
+  animation:carimbo .5s 1.2s cubic-bezier(.3,1.6,.5,1) both}
+.selo b{font-family:'Cinzel',serif;font-size:1.9rem;line-height:1}
+.selo small{display:block;font-size:.55rem;font-weight:800;letter-spacing:.1em;margin-top:-2px}
+@keyframes carimbo{from{transform:rotate(-12deg) scale(2.4);opacity:0}}
+.lema{margin-top:12px;font-weight:800;font-size:1.05rem;color:var(--tinta)}
+.lema small{display:block;font-weight:600;font-size:.92rem;color:var(--tinta-suave);margin-top:2px}
+
+
+
+/* Capa (imagem escolhida pelo Thiago: capa.jpg) */
+.capa{position:relative;margin:0 auto 24px;max-width:440px;aspect-ratio:3/4;border-radius:8px;overflow:hidden;
+  border:3px solid var(--ouro);box-shadow:0 0 0 6px var(--papel-claro),0 0 0 9px var(--vermelho),0 18px 34px #3a241455}
+.capa img{width:100%;height:100%;object-fit:cover;object-position:50% 35%;display:block;animation:camera 18s ease-in-out infinite alternate}
+@keyframes camera{from{transform:scale(1.02) translateY(0)}to{transform:scale(1.14) translateY(-3%)}}
+.capa::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#fff0 55%,#f6e7c8cc 100%);pointer-events:none}
+.nuvem-capa{position:absolute;left:-60%;width:60%;height:60px;border-radius:50%;
+  background:radial-gradient(ellipse,#ffffffd9 0%,#ffffff00 70%);animation:nuvemCapa linear infinite;pointer-events:none;z-index:1}
+.nuvem-capa.c1{top:22%;animation-duration:24s}
+.nuvem-capa.c2{top:55%;animation-duration:32s;animation-delay:-12s;height:80px}
+.nuvem-capa.c3{top:78%;animation-duration:20s;animation-delay:-6s;opacity:.8}
+@keyframes nuvemCapa{to{left:110%}}
+
+.selo{height:76px!important}
+.pontos{display:flex;justify-content:center;gap:4px;margin-top:4px}
+.pontos i{width:8px;height:8px;border-radius:50%;background:var(--c);border:1.5px solid var(--papel-claro);opacity:.45;animation:pisca 2.4s infinite}
+.pontos i:nth-child(2){animation-delay:.6s}.pontos i:nth-child(3){animation-delay:1.2s}.pontos i:nth-child(4){animation-delay:1.8s}
+@keyframes pisca{0%,30%,100%{opacity:.45;transform:scale(1)}10%{opacity:1;transform:scale(1.35);box-shadow:0 0 8px var(--c)}}
+/* Quatro elementos */
+.elementos{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:20px}
+.el{text-align:center}
+.el .disco{width:min(72px,19vw);height:min(72px,19vw);margin:0 auto;border-radius:50%;display:grid;place-items:center;
+  background:var(--papel-claro);border:3px solid var(--c);box-shadow:0 4px 0 var(--c);overflow:hidden;position:relative;
+  animation:aceso 8s infinite}
+.el:nth-child(2) .disco{animation-delay:2s}.el:nth-child(3) .disco{animation-delay:4s}.el:nth-child(4) .disco{animation-delay:6s}
+@keyframes aceso{0%,20%,100%{box-shadow:0 4px 0 var(--c)}8%{box-shadow:0 4px 0 var(--c),0 0 0 8px color-mix(in srgb,var(--c) 25%,transparent),0 0 26px var(--c);transform:translateY(-4px)}}
+.el svg{width:70%;height:70%;overflow:visible}
+.el span{display:block;margin-top:8px;font-family:'Cinzel',serif;font-weight:700;font-size:.8rem;letter-spacing:.06em;color:var(--c)}
+.fogo{--c:var(--fogo)}.ar{--c:var(--ar)}.terra{--c:var(--terra)}.agua{--c:var(--agua)}
+.chama{transform-origin:50% 95%;animation:tremula .6s ease-in-out infinite alternate}
+.chama2{transform-origin:50% 95%;animation:tremula .45s ease-in-out infinite alternate-reverse}
+@keyframes tremula{from{transform:scale(1,1) skewX(-3deg)}to{transform:scale(.92,1.1) skewX(4deg)}}
+.giro{transform-origin:50% 50%;animation:roda 3s linear infinite}
+@keyframes roda{to{transform:rotate(360deg)}}
+.pedra{animation:flutuaP 2.6s ease-in-out infinite}
+.pedra.p2{animation-delay:-.9s}.pedra.p3{animation-delay:-1.7s}
+@keyframes flutuaP{50%{transform:translateY(-5px)}}
+.onda{animation:ondula 2.2s linear infinite}
+.onda.o2{animation-duration:3.2s;opacity:.6}
+@keyframes ondula{to{transform:translateX(-40px)}}
+
+/* Pergaminho */
+.pergaminho{position:relative;background:var(--papel-claro);border:2px solid var(--borda);border-radius:6px;
+  padding:26px 18px 22px;margin:34px 6px 0;box-shadow:0 14px 30px #3a24142a}
+.pergaminho::before,.pergaminho::after{content:"";position:absolute;left:-10px;right:-10px;height:16px;border-radius:10px;
+  background:linear-gradient(180deg,#a8382e,var(--vermelho-esc));box-shadow:0 3px 0 #0002}
+.pergaminho::before{top:-12px}.pergaminho::after{bottom:-12px}
+.infos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.info .ic{font-size:1.4rem}
+.info strong{display:block;font-family:'Cinzel',serif;font-size:1rem;margin-top:4px;color:var(--vermelho-esc)}
+.info span{font-size:.8rem;color:var(--tinta-suave)}
+.contagem{display:flex;justify-content:center;gap:8px;margin-top:18px}
+.contagem div{background:var(--papel);border:2px solid var(--borda);border-radius:10px;min-width:62px;padding:8px 6px;text-align:center}
+.contagem b{display:block;font-family:'Cinzel',serif;font-size:1.45rem;color:var(--vermelho)}
+.contagem small{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--tinta-suave);font-weight:700}
+.dica{margin-top:14px;text-align:center;font-size:.88rem;color:var(--tinta-suave)}
+
+h2{font-family:'Cinzel',serif;font-size:1.3rem;text-align:center;color:var(--vermelho-esc)}
+.sub{text-align:center;color:var(--tinta-suave);font-size:.93rem;margin:4px 0 14px}
+label.rot{display:block;font-weight:800;font-size:.92rem;margin:14px 0 6px}
+input[type=text],textarea{width:100%;background:#fff;border:2px solid var(--borda);border-radius:10px;
+  padding:13px 14px;font-size:1rem;outline:none;transition:border-color .2s,box-shadow .2s}
+input[type=text]:focus,textarea:focus{border-color:var(--vermelho);box-shadow:0 0 0 4px #b3322a22}
+textarea{resize:vertical;min-height:70px}
+
+.escolha{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.escolha button{border:2px solid var(--borda);background:#fff;border-radius:10px;padding:12px 8px;font-weight:800;cursor:pointer;transition:all .2s}
+.escolha button[aria-pressed=true]{background:var(--vermelho);border-color:var(--vermelho);color:var(--papel-claro);
+  transform:translateY(-2px);box-shadow:0 4px 0 var(--vermelho-esc)}
+
+.pessoas{display:grid;gap:10px}
+.linha{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;
+  border:2px solid var(--borda);border-left:6px solid var(--c);border-radius:10px;padding:10px 12px}
+.linha .tx strong{display:block;font-size:.98rem}
+.linha .tx span{font-size:.8rem;color:var(--tinta-suave)}
+.passo{display:flex;align-items:center;gap:6px}
+.passo button{width:40px;height:40px;border-radius:50%;border:2px solid var(--borda);background:var(--papel);
+  font-size:1.3rem;font-weight:800;cursor:pointer;color:var(--vermelho-esc);transition:transform .1s}
+.passo button:active{transform:scale(.88)}
+.passo output{min-width:30px;text-align:center;font-family:'Cinzel',serif;font-size:1.35rem}
+.total{text-align:center;margin-top:10px;font-weight:700;color:var(--tinta-suave)}
+.total b{color:var(--vermelho);font-size:1.15rem}
+.oculto{display:none!important}
+
+.enviar{margin-top:20px;width:100%;border:none;border-radius:12px;padding:16px;cursor:pointer;
+  font-family:'Cinzel',serif;font-weight:900;font-size:1.1rem;letter-spacing:.04em;color:var(--papel-claro);
+  background:linear-gradient(180deg,#c63d33,var(--vermelho));box-shadow:0 5px 0 var(--vermelho-esc),0 10px 20px #7e1f1944;
+  transition:transform .12s,box-shadow .12s}
+.enviar:active{transform:translateY(4px);box-shadow:0 1px 0 var(--vermelho-esc)}
+.enviar:disabled{opacity:.7;cursor:wait}
+.msg{margin-top:12px;text-align:center;font-weight:700;min-height:1.2em}
+.msg.erro{color:var(--erro)}
+
+/* ---------- Sucesso: os 4 elementos se unem ---------- */
+.uniao{position:fixed;inset:0;z-index:10;display:grid;place-items:center;background:#2b170df0;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);opacity:0;pointer-events:none;transition:opacity .35s}
+.uniao.on{opacity:1;pointer-events:auto}
+.roda{position:relative;width:220px;height:220px;margin:0 auto}
+.roda .anel{position:absolute;inset:30px;border-radius:50%;border:3px dashed var(--ouro-claro);opacity:0}
+.uniao.on .anel{animation:anel 1s 1s ease-out forwards,roda 10s 1s linear infinite}
+@keyframes anel{to{opacity:.9}}
+.roda .bola{position:absolute;left:80px;top:80px;width:60px;height:60px;border-radius:50%;display:grid;place-items:center;
+  background:var(--c);box-shadow:0 0 22px var(--c);font-size:1.7rem;opacity:0}
+.uniao.on .bola{animation:junta 1.1s cubic-bezier(.2,.9,.25,1) forwards}
+.bola.fogo{--de:-160px,-220px;--para:0,-80px}
+.bola.ar{--de:160px,-220px;--para:80px,0;animation-delay:.12s!important}
+.bola.terra{--de:-160px,240px;--para:0,80px;animation-delay:.24s!important}
+.bola.agua{--de:160px,240px;--para:-80px,0;animation-delay:.36s!important}
+@keyframes junta{0%{opacity:0;transform:translate(var(--de)) scale(.4)}60%{opacity:1}100%{opacity:1;transform:translate(var(--para)) scale(1)}}
+.roda .centro{position:absolute;left:70px;top:70px;width:80px;height:80px;border-radius:50%;display:grid;place-items:center;
+  background:var(--papel-claro);border:4px solid var(--ouro);font-family:'Kaushan Script',cursive;font-size:2.4rem;color:var(--vermelho);opacity:0}
+.uniao.on .centro{animation:explode .6s 1.15s cubic-bezier(.3,1.7,.5,1) forwards}
+@keyframes explode{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
+.uniao .caixa{text-align:center;padding:0 24px;margin-top:18px;color:var(--papel-claro);opacity:0}
+.uniao.on .caixa{animation:aparece .6s 1.4s ease-out forwards}
+@keyframes aparece{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.uniao h3{font-family:'Cinzel',serif;font-size:1.5rem;color:var(--ouro-claro)}
+.uniao p{margin-top:8px;opacity:.9}
+.uniao .voltar{margin-top:18px;border:2px solid var(--ouro-claro);background:transparent;color:var(--ouro-claro);
+  border-radius:999px;padding:10px 20px;font-weight:800;cursor:pointer}
+
+footer{position:relative;z-index:1;text-align:center;font-size:.8rem;color:var(--tinta-suave);padding:24px 16px 28px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="cena" aria-hidden="true">
+  
+
+  <svg class="lanterna e" viewBox="0 0 46 110">
+    <line x1="23" y1="0" x2="23" y2="30" stroke="#5d3324" stroke-width="2"/>
+    <rect x="15" y="28" width="16" height="6" rx="2" fill="#5d3324"/>
+    <ellipse cx="23" cy="56" rx="21" ry="24" fill="#c63d33"/>
+    <ellipse class="luz" cx="23" cy="56" rx="12" ry="16" fill="#ffcf7a" opacity=".85"/>
+    <path d="M6 50 Q23 44 40 50 M4 62 Q23 68 42 62" stroke="#7e1f19" stroke-width="1.5" fill="none"/>
+    <rect x="15" y="78" width="16" height="6" rx="2" fill="#5d3324"/>
+    <path d="M18 84 v18 M23 84 v22 M28 84 v18" stroke="#d9a441" stroke-width="2"/>
+  </svg>
+  <svg class="lanterna d" viewBox="0 0 46 110">
+    <line x1="23" y1="0" x2="23" y2="30" stroke="#5d3324" stroke-width="2"/>
+    <rect x="15" y="28" width="16" height="6" rx="2" fill="#5d3324"/>
+    <ellipse cx="23" cy="56" rx="21" ry="24" fill="#c63d33"/>
+    <ellipse class="luz" cx="23" cy="56" rx="12" ry="16" fill="#ffcf7a" opacity=".85"/>
+    <path d="M6 50 Q23 44 40 50 M4 62 Q23 68 42 62" stroke="#7e1f19" stroke-width="1.5" fill="none"/>
+    <rect x="15" y="78" width="16" height="6" rx="2" fill="#5d3324"/>
+    <path d="M18 84 v18 M23 84 v22 M28 84 v18" stroke="#d9a441" stroke-width="2"/>
+  </svg>
+  <div id="particulas"></div>
+</div>
+
+<main>
+  <header class="topo">
+    <figure class="capa" id="capa">
+      <img src="capa.jpg" alt="" onerror="document.getElementById('capa').remove()">
+      <span class="nuvem-capa c1"></span><span class="nuvem-capa c2"></span><span class="nuvem-capa c3"></span>
+    </figure>
+    <span class="faixa">VOCÊ FOI CONVOCADO</span>
+    <h1 class="titulo" aria-label="Avatar Theo, 8 anos">
+      <span class="av">AVATAR</span>
+      <span class="nm">Theo</span>
+      <span class="selo" aria-hidden="true"><span><b>8</b><small>ANOS</small><i class="pontos"><i style="--c:var(--fogo)"></i><i style="--c:var(--ar)"></i><i style="--c:var(--terra)"></i><i style="--c:var(--agua)"></i></i></span></span>
+    </h1>
+    <p class="lema">Treinamento dos quatro elementos<small>Venha aprender kung fu com o mestre aniversariante!</small></p>
+
+    <div class="elementos">
+      <div class="el fogo">
+        <div class="disco"><svg viewBox="0 0 40 40">
+          <path class="chama" d="M20 37c-8 0-12-6-11-12 1-5 5-7 5-12 4 3 5 6 5 9 1-3 3-5 3-10 6 4 10 10 9 16-1 5-5 9-11 9z" fill="#e2552b"/>
+          <path class="chama2" d="M20 36c-4 0-6-3-5-6 0-3 3-4 3-7 2 2 3 4 3 6 1-1 2-3 2-5 3 3 4 6 3 8-1 3-3 4-6 4z" fill="#ffc24a"/>
+        </svg></div><span>FOGO</span>
+      </div>
+      <div class="el ar">
+        <div class="disco"><svg viewBox="0 0 40 40"><g class="giro">
+          <path d="M20 6a14 14 0 1 1-14 14a10 10 0 0 1 10-10a7 7 0 0 1 7 7a4 4 0 0 1-4 4" fill="none" stroke="#e8b93c" stroke-width="3.2" stroke-linecap="round"/>
+        </g></svg></div><span>AR</span>
+      </div>
+      <div class="el terra">
+        <div class="disco"><svg viewBox="0 0 40 40">
+          <path d="M4 36 L12 26 L28 26 L36 36 Z" fill="#7e5a35"/>
+          <path class="pedra" d="M13 22 L16 14 L25 13 L28 21 L22 25 Z" fill="#5f8a3a"/>
+          <path class="pedra p2" d="M6 14 L9 9 L13 11 L12 15 Z" fill="#8a6a45"/>
+          <path class="pedra p3" d="M29 9 L33 7 L35 11 L31 13 Z" fill="#8a6a45"/>
+        </svg></div><span>TERRA</span>
+      </div>
+      <div class="el agua">
+        <div class="disco"><svg viewBox="0 0 40 40">
+          <g class="onda o2"><path d="M0 22 q5-5 10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 v20 h-70z" fill="#8cc4ec"/></g>
+          <g class="onda"><path d="M0 26 q5-5 10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 v20 h-70z" fill="#2f7fc1"/></g>
+          <path d="M20 5c-4 6-6 9-6 12a6 6 0 0 0 12 0c0-3-2-6-6-12z" fill="#2f7fc1"/>
+        </svg></div><span>ÁGUA</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="pergaminho" aria-label="Detalhes da festa">
+    <div class="infos">
+      <div class="info"><div class="ic">📜</div><strong>30/11</strong><span>segunda-feira</span></div>
+      <div class="info"><div class="ic">🏮</div><strong>16h</strong><span>início do treino</span></div>
+      <div class="info"><div class="ic">⛩️</div><strong>Sítio Geranium</strong><span>o templo</span></div>
+    </div>
+    <div class="contagem" id="contagem" aria-live="polite">
+      <div><b id="cd-d">--</b><small>dias</small></div>
+      <div><b id="cd-h">--</b><small>horas</small></div>
+      <div><b id="cd-m">--</b><small>min</small></div>
+      <div><b id="cd-s">--</b><small>seg</small></div>
+    </div>
+    <p class="dica">🥋 Venha com roupa confortável para treinar!</p>
+  </section>
+
+  <section class="pergaminho">
+    <h2>Confirme sua presença</h2>
+    <p class="sub">Todo discípulo precisa se inscrever no treino 🙏</p>
+
+    <form id="form" novalidate>
+      <label class="rot" for="nome">Nome do convidado (ou da família)</label>
+      <input type="text" id="nome" autocomplete="name" placeholder="Ex.: Família Souza" maxlength="120" required>
+
+      <label class="rot">Você vai?</label>
+      <div class="escolha" role="group" aria-label="Vai à festa?">
+        <button type="button" id="sim" aria-pressed="true">🥋 Vou treinar!</button>
+        <button type="button" id="nao" aria-pressed="false">Não poderei</button>
+      </div>
+
+      <div id="blocoPessoas">
+        <label class="rot">Quantas pessoas vão? <span style="font-weight:600;color:var(--tinta-suave)">(conte todo mundo, inclusive você)</span></label>
+        <div class="pessoas">
+          <div class="linha" style="--c:var(--agua)">
+            <div class="tx"><strong>Crianças</strong><span>menores de 10 anos</span></div>
+            <div class="passo"><button type="button" data-alvo="criancas" data-d="-1" aria-label="Menos crianças">−</button><output id="criancas">0</output><button type="button" data-alvo="criancas" data-d="1" aria-label="Mais crianças">+</button></div>
+          </div>
+          <div class="linha" style="--c:var(--terra)">
+            <div class="tx"><strong>Adolescentes</strong><span>de 10 a 17 anos</span></div>
+            <div class="passo"><button type="button" data-alvo="adolescentes" data-d="-1" aria-label="Menos adolescentes">−</button><output id="adolescentes">0</output><button type="button" data-alvo="adolescentes" data-d="1" aria-label="Mais adolescentes">+</button></div>
+          </div>
+          <div class="linha" style="--c:var(--fogo)">
+            <div class="tx"><strong>Adultos</strong><span>18 anos ou mais</span></div>
+            <div class="passo"><button type="button" data-alvo="adultos" data-d="-1" aria-label="Menos adultos">−</button><output id="adultos">0</output><button type="button" data-alvo="adultos" data-d="1" aria-label="Mais adultos">+</button></div>
+          </div>
+        </div>
+        <p class="total">Total: <b id="total">0</b> discípulo(s)</p>
+      </div>
+
+      <label class="rot" for="recado">Recado para o Avatar Theo <span style="font-weight:600;color:var(--tinta-suave)">(opcional)</span></label>
+      <textarea id="recado" maxlength="500" placeholder="Deixe uma mensagem…"></textarea>
+
+      <button class="enviar" type="submit" id="btn">Confirmar presença</button>
+      <p class="msg" id="msg" role="status"></p>
+    </form>
+  </section>
+</main>
+
+<footer>Avatar Theo · 8 anos · 30 de novembro · 16h · Sítio Geranium</footer>
+
+<div class="uniao" id="uniao" role="dialog" aria-modal="true" aria-labelledby="okTitulo">
+  <div>
+    <div class="roda" aria-hidden="true">
+      <div class="anel"></div>
+      <div class="bola fogo">🔥</div>
+      <div class="bola ar">🌪️</div>
+      <div class="bola terra">🪨</div>
+      <div class="bola agua">💧</div>
+      <div class="centro">8</div>
+    </div>
+    <div class="caixa">
+      <h3 id="okTitulo">Presença confirmada!</h3>
+      <p id="okTexto">Você está no treino. Até dia 30!</p>
+      <button class="voltar" type="button" id="voltar">Alterar resposta</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { firebaseConfig, COLECAO } from './firebase-config.js';
+
+/* Brasas subindo e pétalas caindo */
+const part = document.getElementById('particulas');
+for (let i = 0; i < 14; i++) {
+  const b = document.createElement('span');
+  b.className = 'brasa';
+  b.style.left = (Math.random() * 100) + '%';
+  b.style.animationDuration = (8 + Math.random() * 8) + 's';
+  b.style.animationDelay = (-Math.random() * 16) + 's';
+  part.appendChild(b);
+}
+for (let i = 0; i < 8; i++) {
+  const p = document.createElement('span');
+  p.className = 'petala';
+  p.style.left = (20 + Math.random() * 90) + '%';
+  p.style.animationDuration = (12 + Math.random() * 10) + 's';
+  p.style.animationDelay = (-Math.random() * 22) + 's';
+  part.appendChild(p);
+}
+
+/* Contagem regressiva */
+const alvo = new Date('2026-11-30T16:00:00-03:00').getTime();
+const pad = n => String(n).padStart(2, '0');
+function tique() {
+  let s = Math.max(0, Math.floor((alvo - Date.now()) / 1000));
+  if (s === 0) { document.getElementById('contagem').innerHTML = '<div style="padding:10px 16px"><b>É hoje! 🎉</b></div>'; return; }
+  const d = Math.floor(s / 86400); s %= 86400;
+  const h = Math.floor(s / 3600); s %= 3600;
+  const m = Math.floor(s / 60); s %= 60;
+  document.getElementById('cd-d').textContent = d;
+  document.getElementById('cd-h').textContent = pad(h);
+  document.getElementById('cd-m').textContent = pad(m);
+  document.getElementById('cd-s').textContent = pad(s);
+  setTimeout(tique, 1000);
+}
+tique();
+
+/* Formulário */
+const qtd = { criancas: 0, adolescentes: 0, adultos: 0 };
+let vai = true;
+const $ = id => document.getElementById(id);
+function atualizaTotal() {
+  for (const k in qtd) $(k).textContent = qtd[k];
+  $('total').textContent = qtd.criancas + qtd.adolescentes + qtd.adultos;
+}
+document.querySelectorAll('.passo button').forEach(b => b.addEventListener('click', () => {
+  const k = b.dataset.alvo;
+  qtd[k] = Math.max(0, Math.min(30, qtd[k] + Number(b.dataset.d)));
+  atualizaTotal();
+}));
+function setVai(v) {
+  vai = v;
+  $('sim').setAttribute('aria-pressed', v);
+  $('nao').setAttribute('aria-pressed', !v);
+  $('blocoPessoas').classList.toggle('oculto', !v);
+  $('btn').textContent = v ? 'Confirmar presença' : 'Enviar resposta';
+}
+$('sim').onclick = () => setVai(true);
+$('nao').onclick = () => setVai(false);
+
+/* Lembra a última resposta neste aparelho */
+try {
+  const salvo = JSON.parse(localStorage.getItem('festaTheo8') || 'null');
+  if (salvo) { $('nome').value = salvo.nome || ''; Object.assign(qtd, salvo.qtd || {}); setVai(salvo.vai !== false); $('recado').value = salvo.recado || ''; }
+} catch (e) {}
+atualizaTotal();
+
+const slug = s => s.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+  .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 100) || 'convidado';
+
+const configurado = firebaseConfig.apiKey && firebaseConfig.apiKey !== 'COLE_AQUI';
+let dbPromise = null;
+function getDb() {
+  if (!dbPromise) dbPromise = (async () => {
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+    const fs = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+    return { db: fs.getFirestore(initializeApp(firebaseConfig)), fs };
+  })();
+  return dbPromise;
+}
+
+$('form').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const msg = $('msg'); msg.className = 'msg'; msg.textContent = '';
+  const nome = $('nome').value.trim();
+  const total = qtd.criancas + qtd.adolescentes + qtd.adultos;
+  if (nome.length < 2) { msg.className = 'msg erro'; msg.textContent = 'Escreva o nome do convidado 🙂'; $('nome').focus(); return; }
+  if (vai && total < 1) { msg.className = 'msg erro'; msg.textContent = 'Conte quantas pessoas vão (use o +).'; return; }
+
+  const dados = {
+    nome, vai,
+    criancas: vai ? qtd.criancas : 0,
+    adolescentes: vai ? qtd.adolescentes : 0,
+    adultos: vai ? qtd.adultos : 0,
+    recado: $('recado').value.trim().slice(0, 500)
+  };
+  dados.total = dados.criancas + dados.adolescentes + dados.adultos;
+
+  $('btn').disabled = true; $('btn').textContent = 'Enviando…';
+  try {
+    if (configurado) {
+      const { db, fs } = await getDb();
+      await fs.setDoc(fs.doc(db, COLECAO, slug(nome)), { ...dados, quando: fs.serverTimestamp() });
+    } else {
+      await new Promise(r => setTimeout(r, 700)); // modo de pré-visualização
+    }
+    try { localStorage.setItem('festaTheo8', JSON.stringify({ nome, vai, qtd, recado: dados.recado })); } catch (e) {}
+    $('okTitulo').textContent = vai ? 'Presença confirmada!' : 'Resposta enviada';
+    $('okTexto').textContent = vai
+      ? `${dados.total} discípulo(s) inscrito(s) no treinamento. Até dia 30, às 16h!`
+      : 'Que pena! Obrigado por avisar. O Avatar Theo vai sentir sua falta.';
+    const u = $('uniao'); u.classList.remove('on'); void u.offsetWidth; u.classList.add('on');
+    $('voltar').focus();
+  } catch (e) {
+    console.error(e);
+    msg.className = 'msg erro';
+    msg.textContent = 'Não deu para enviar agora. Confira a internet e tente de novo.';
+  } finally {
+    $('btn').disabled = false; setVai(vai);
+  }
+});
+$('voltar').onclick = () => $('uniao').classList.remove('on');
+</script>
+</body>
+</html>

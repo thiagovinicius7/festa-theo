@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Painel – Avatar Theo</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#8e2a21">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2316425f'/%3E%3Cpath d='M14 34c10-14 30-14 36 0M18 44c8-8 22-8 28 0' stroke='white' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--laranja:#b3322a;--laranja-esc:#7e1f19;--tinta:#3a2414;--tinta-suave:#6e5238;--borda:#e2c690;--campo:#fff8e8;--erro:#c2412d;--ok:#2e9d6a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',system-ui,sans-serif;color:var(--tinta);min-height:100vh;
+  background:linear-gradient(180deg,#b3322a 0%,#d9774a 28%,#f6e7c8 55%) fixed}
+button{font:inherit;cursor:pointer}
+main{max-width:720px;margin:0 auto;padding:24px 16px 60px}
+h1{font-family:'Fredoka',sans-serif;color:#fff;font-size:2rem;text-shadow:0 3px 0 var(--laranja-esc);text-align:center}
+.sub{text-align:center;color:#fff;font-weight:700;margin-top:2px}
+.cartao{background:#fff;border:2px solid var(--borda);border-radius:20px;padding:18px;margin-top:16px;box-shadow:0 10px 24px #16425f1a}
+.entrar{text-align:center}
+.entrar p{color:var(--tinta-suave);margin:8px 0 16px}
+.btn{border:none;border-radius:14px;padding:12px 18px;font-weight:800;background:var(--laranja);color:#fff;box-shadow:0 4px 0 var(--laranja-esc)}
+.btn.sec{background:#fff;color:var(--tinta);border:2px solid var(--borda);box-shadow:none}
+.btn:active{transform:translateY(2px)}
+.barra{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.barra .quem{color:#fff;font-weight:700;font-size:.9rem}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}
+@media(min-width:560px){.stats{grid-template-columns:repeat(5,1fr)}}
+.stat{background:#fff;border:2px solid var(--borda);border-radius:18px;padding:12px;text-align:center}
+.stat b{display:block;font-family:'Fredoka',sans-serif;font-size:2rem;color:var(--laranja-esc);line-height:1.1}
+.stat span{font-size:.8rem;color:var(--tinta-suave);font-weight:700}
+.stat.destaque{background:var(--laranja);border-color:var(--laranja)}
+.stat.destaque b,.stat.destaque span{color:#fff}
+.abas{display:flex;gap:8px;margin-bottom:12px}
+.abas button{flex:1;border:2px solid var(--borda);background:var(--campo);border-radius:12px;padding:9px;font-weight:800}
+.abas button[aria-selected=true]{background:var(--tinta);border-color:var(--tinta);color:#fff}
+.busca{width:100%;border:2px solid var(--borda);background:var(--campo);border-radius:12px;padding:10px 12px;font:inherit;margin-bottom:10px}
+ul{list-style:none}
+li{border-bottom:1px solid var(--borda);padding:12px 2px;display:grid;grid-template-columns:1fr auto;gap:4px 10px}
+li:last-child{border-bottom:none}
+li .n{font-weight:800}
+li .q{font-size:.85rem;color:var(--tinta-suave)}
+li .t{font-family:'Fredoka',sans-serif;font-size:1.3rem;color:var(--laranja-esc);text-align:right}
+li .r{grid-column:1/-1;font-size:.88rem;background:var(--campo);border-radius:10px;padding:8px 10px;font-style:italic}
+li .x{border:none;background:none;color:var(--tinta-suave);font-size:.78rem;text-decoration:underline;justify-self:end}
+.vazio{text-align:center;color:var(--tinta-suave);padding:20px}
+.erro{color:var(--erro);font-weight:700;text-align:center;margin-top:10px}
+.oculto{display:none!important}
+</style>
+</head>
+<body>
+<main>
+  <h1>Painel · Avatar Theo</h1>
+  <p class="sub">Theo · 8 anos · 30/11 às 16h</p>
+
+  <section class="cartao entrar" id="telaEntrar">
+    <p>Entre com sua conta Google para ver as confirmações.</p>
+    <button class="btn" id="btnEntrar">Entrar com Google</button>
+    <p class="erro" id="erroEntrar"></p>
+  </section>
+
+  <div id="telaPainel" class="oculto">
+    <div class="barra">
+      <span class="quem" id="quem"></span>
+      <span>
+        <button class="btn sec" id="btnCsv">Baixar planilha (CSV)</button>
+        <button class="btn sec" id="btnSair">Sair</button>
+      </span>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b id="sFam">0</b><span>respostas "vou"</span></div>
+      <div class="stat"><b id="sCri">0</b><span>crianças (&lt;10)</span></div>
+      <div class="stat"><b id="sAdo">0</b><span>adolescentes</span></div>
+      <div class="stat"><b id="sAdu">0</b><span>adultos</span></div>
+      <div class="stat destaque"><b id="sTot">0</b><span>pessoas no total</span></div>
+    </div>
+
+    <section class="cartao">
+      <div class="abas" role="tablist">
+        <button role="tab" id="abaVao" aria-selected="true">Vão (<span id="nVao">0</span>)</button>
+        <button role="tab" id="abaNao" aria-selected="false">Não vão (<span id="nNao">0</span>)</button>
+      </div>
+      <input class="busca" id="busca" type="search" placeholder="Buscar nome…">
+      <ul id="lista"></ul>
+    </section>
+  </div>
+</main>
+
+<script type="module">
+import { firebaseConfig, EMAILS_PAINEL, COLECAO } from './firebase-config.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import { getFirestore, collection, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+const $ = id => document.getElementById(id);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let todos = [], aba = 'vao', parar = null;
+
+$('btnEntrar').onclick = async () => {
+  $('erroEntrar').textContent = '';
+  try { await signInWithPopup(auth, new GoogleAuthProvider()); }
+  catch (e) { $('erroEntrar').textContent = 'Não foi possível entrar: ' + (e.code || e.message); }
+};
+$('btnSair').onclick = () => signOut(auth);
+
+onAuthStateChanged(auth, user => {
+  if (parar) { parar(); parar = null; }
+  const ok = user && EMAILS_PAINEL.includes((user.email || '').toLowerCase());
+  $('telaEntrar').classList.toggle('oculto', !!ok);
+  $('telaPainel').classList.toggle('oculto', !ok);
+  if (user && !ok) { $('erroEntrar').textContent = `A conta ${user.email} não tem acesso ao painel.`; signOut(auth); return; }
+  if (!ok) return;
+  $('quem').textContent = '👤 ' + user.email;
+  parar = onSnapshot(collection(db, COLECAO), snap => {
+    todos = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => (b.quando?.toMillis?.() || 0) - (a.quando?.toMillis?.() || 0));
+    desenha();
+  }, e => { $('lista').innerHTML = `<li class="vazio">Erro ao ler: ${e.code}</li>`; });
+});
+
+function desenha() {
+  const vao = todos.filter(r => r.vai), nao = todos.filter(r => !r.vai);
+  const soma = k => vao.reduce((s, r) => s + (r[k] || 0), 0);
+  $('sFam').textContent = vao.length;
+  $('sCri').textContent = soma('criancas');
+  $('sAdo').textContent = soma('adolescentes');
+  $('sAdu').textContent = soma('adultos');
+  $('sTot').textContent = soma('total');
+  $('nVao').textContent = vao.length;
+  $('nNao').textContent = nao.length;
+
+  const termo = $('busca').value.trim().toLowerCase();
+  const itens = (aba === 'vao' ? vao : nao).filter(r => !termo || r.nome.toLowerCase().includes(termo));
+  const ul = $('lista'); ul.innerHTML = '';
+  if (!itens.length) { ul.innerHTML = '<li class="vazio">Nenhuma resposta aqui ainda.</li>'; return; }
+  for (const r of itens) {
+    const li = document.createElement('li');
+    const quando = r.quando?.toDate ? r.quando.toDate().toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
+    const n = document.createElement('div'); n.className = 'n'; n.textContent = r.nome;
+    const t = document.createElement('div'); t.className = 't'; t.textContent = r.vai ? r.total : '—';
+    const q = document.createElement('div'); q.className = 'q';
+    q.textContent = (r.vai ? `${r.criancas} criança(s) · ${r.adolescentes} adolesc. · ${r.adultos} adulto(s)` : 'Não vai') + (quando ? ` · ${quando}` : '');
+    const x = document.createElement('button'); x.className = 'x'; x.textContent = 'apagar';
+    x.onclick = async () => { if (confirm(`Apagar a resposta de "${r.nome}"?`)) await deleteDoc(doc(db, COLECAO, r.id)); };
+    li.append(n, t, q, x);
+    if (r.recado) { const rc = document.createElement('div'); rc.className = 'r'; rc.textContent = '💬 ' + r.recado; li.append(rc); }
+    ul.append(li);
+  }
+}
+
+function setAba(a) {
+  aba = a;
+  $('abaVao').setAttribute('aria-selected', a === 'vao');
+  $('abaNao').setAttribute('aria-selected', a === 'nao');
+  desenha();
+}
+$('abaVao').onclick = () => setAba('vao');
+$('abaNao').onclick = () => setAba('nao');
+$('busca').oninput = desenha;
+
+$('btnCsv').onclick = () => {
+  const esc = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const linhas = [['Nome', 'Vai', 'Crianças (<10)', 'Adolescentes', 'Adultos', 'Total', 'Recado', 'Data']];
+  for (const r of todos) linhas.push([r.nome, r.vai ? 'Sim' : 'Não', r.criancas, r.adolescentes, r.adultos, r.total, r.recado,
+    r.quando?.toDate ? r.quando.toDate().toLocaleString('pt-BR') : '']);
+  const csv = '﻿' + linhas.map(l => l.map(esc).join(';')).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = 'confirmacoes-festa-theo.csv';
+  a.click();
+};
+</script>
+</body>
+</html>
