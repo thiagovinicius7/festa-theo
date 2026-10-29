@@ -25,6 +25,8 @@ Convite com confirmação de presença (GitHub Pages + Firebase).
 - Convidados: `https://thiagovinicius7.github.io/festa-theo/`
 - Seu painel: `https://thiagovinicius7.github.io/festa-theo/painel.html`
 
+A foto da capa pode ser trocada no painel (seção "Foto da capa"); "Voltar à foto original" volta para o `capa.jpg`.
+
 Se a mesma pessoa confirmar de novo com o mesmo nome, a resposta é atualizada e não duplica.
 Para liberar o painel para outra pessoa, adicione o e-mail dela em `firebase-config.js`
 **e** em `firestore.rules`.

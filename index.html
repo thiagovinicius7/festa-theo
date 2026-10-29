@@ -236,7 +236,7 @@ footer{position:relative;z-index:1;text-align:center;font-size:.8rem;color:var(-
 <main>
   <header class="topo">
     <figure class="capa" id="capa">
-      <img src="capa.jpg" alt="" onerror="document.getElementById('capa').remove()">
+      <img id="capaImg" src="capa.jpg" alt="" onerror="document.getElementById('capa').remove()">
       <span class="nuvem-capa c1"></span><span class="nuvem-capa c2"></span><span class="nuvem-capa c3"></span>
     </figure>
     <span class="faixa">VOCÊ FOI CONVOCADO</span>
@@ -355,7 +355,7 @@ footer{position:relative;z-index:1;text-align:center;font-size:.8rem;color:var(-
 </div>
 
 <script type="module">
-import { firebaseConfig, COLECAO } from './firebase-config.js';
+import { firebaseConfig, COLECAO, COLECAO_CONFIG } from './firebase-config.js';
 
 /* Brasas subindo e pétalas caindo */
 const part = document.getElementById('particulas');
@@ -435,6 +435,16 @@ function getDb() {
     return { db: fs.getFirestore(initializeApp(firebaseConfig)), fs };
   })();
   return dbPromise;
+}
+
+/* Foto da capa trocada pelo painel (se houver) */
+if (configurado) {
+  getDb().then(async ({ db, fs }) => {
+    const snap = await fs.getDoc(fs.doc(db, COLECAO_CONFIG, 'capa'));
+    const img = snap.exists() && snap.data().img;
+    const el = $('capaImg');
+    if (img && el) el.src = img;
+  }).catch(e => console.warn('Capa padrão mantida:', e));
 }
 
 $('form').addEventListener('submit', async ev => {

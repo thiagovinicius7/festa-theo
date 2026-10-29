@@ -14,3 +14,6 @@ export const EMAILS_PAINEL = ["thiagovinicius7@gmail.com"];
 
 // Coleção no Firestore
 export const COLECAO = "festaTheo8";
+
+// Onde fica a foto da capa trocada pelo painel
+export const COLECAO_CONFIG = "festaTheo8Config";

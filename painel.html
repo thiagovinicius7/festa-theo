@@ -49,6 +49,14 @@ li .x{border:none;background:none;color:var(--tinta-suave);font-size:.78rem;text
 .vazio{text-align:center;color:var(--tinta-suave);padding:20px}
 .erro{color:var(--erro);font-weight:700;text-align:center;margin-top:10px}
 .oculto{display:none!important}
+.tit{font-family:'Fredoka',sans-serif;font-size:1.2rem;margin-bottom:12px}
+.capaBox{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:start}
+.capaBox img{width:120px;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:3px solid var(--borda);background:var(--campo)}
+.capaAcoes{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.capaAcoes label.btn{cursor:pointer}
+.capaAcoes button:disabled{opacity:.5;cursor:not-allowed}
+.capaMsg{font-size:.85rem;color:var(--tinta-suave)}
+.capaMsg.ok{color:#2e9d6a;font-weight:700}.capaMsg.erro{color:var(--erro);font-weight:700}
 </style>
 </head>
 <body>
@@ -87,14 +95,28 @@ li .x{border:none;background:none;color:var(--tinta-suave);font-size:.78rem;text
       <input class="busca" id="busca" type="search" placeholder="Buscar nome…">
       <ul id="lista"></ul>
     </section>
+
+    <section class="cartao">
+      <h2 class="tit">Foto da capa</h2>
+      <div class="capaBox">
+        <img id="capaPrev" src="capa.jpg" alt="Capa atual do convite">
+        <div class="capaAcoes">
+          <label class="btn" for="capaArq">Trocar foto da capa</label>
+          <input type="file" id="capaArq" accept="image/*" class="oculto">
+          <button class="btn sec" id="capaSalvar" disabled>Salvar nova capa</button>
+          <button class="btn sec" id="capaPadrao">Voltar à foto original</button>
+          <p class="capaMsg" id="capaMsg">A foto aparece no convite para todos assim que você salvar.</p>
+        </div>
+      </div>
+    </section>
   </div>
 </main>
 
 <script type="module">
-import { firebaseConfig, EMAILS_PAINEL, COLECAO } from './firebase-config.js';
+import { firebaseConfig, EMAILS_PAINEL, COLECAO, COLECAO_CONFIG } from './firebase-config.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { getFirestore, collection, onSnapshot, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { getFirestore, collection, onSnapshot, deleteDoc, doc, setDoc, getDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
 const $ = id => document.getElementById(id);
 const app = initializeApp(firebaseConfig);
@@ -164,6 +186,76 @@ function setAba(a) {
 $('abaVao').onclick = () => setAba('vao');
 $('abaNao').onclick = () => setAba('nao');
 $('busca').oninput = desenha;
+
+/* ---------- Foto da capa ---------- */
+const capaRef = doc(db, COLECAO_CONFIG, 'capa');
+let capaNova = null;
+function capaAviso(t, tipo = '') { const m = $('capaMsg'); m.textContent = t; m.className = 'capaMsg ' + tipo; }
+
+async function carregaCapa() {
+  try {
+    const snap = await getDoc(capaRef);
+    $('capaPrev').src = (snap.exists() && snap.data().img) || 'capa.jpg';
+  } catch (e) { $('capaPrev').src = 'capa.jpg'; }
+}
+onAuthStateChanged(auth, u => { if (u && EMAILS_PAINEL.includes((u.email || '').toLowerCase())) carregaCapa(); });
+
+// Reduz a foto para caber no banco (máx. 1200 px, JPEG), baixando a qualidade se precisar
+function reduzImagem(arquivo) {
+  return new Promise((ok, falha) => {
+    const url = URL.createObjectURL(arquivo);
+    const img = new Image();
+    img.onload = () => {
+      let lado = 1200, q = 0.85, dados;
+      do {
+        const esc = Math.min(1, lado / Math.max(img.width, img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width * esc); c.height = Math.round(img.height * esc);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        dados = c.toDataURL('image/jpeg', q);
+        if (q > 0.6) q -= 0.08; else lado -= 150;
+      } while (dados.length > 850000 && lado > 400);
+      URL.revokeObjectURL(url);
+      dados.length > 850000 ? falha(new Error('grande')) : ok(dados);
+    };
+    img.onerror = () => falha(new Error('formato'));
+    img.src = url;
+  });
+}
+
+$('capaArq').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  capaAviso('Preparando a foto…');
+  try {
+    capaNova = await reduzImagem(f);
+    $('capaPrev').src = capaNova;
+    $('capaSalvar').disabled = false;
+    capaAviso('Confira a prévia e toque em "Salvar nova capa".');
+  } catch (err) {
+    capaNova = null; $('capaSalvar').disabled = true;
+    capaAviso('Não consegui ler essa imagem. Tente outra (JPG ou PNG).', 'erro');
+  }
+  e.target.value = '';
+};
+$('capaSalvar').onclick = async () => {
+  if (!capaNova) return;
+  $('capaSalvar').disabled = true; capaAviso('Salvando…');
+  try {
+    await setDoc(capaRef, { img: capaNova, quando: serverTimestamp() });
+    capaNova = null; capaAviso('Capa atualizada! Já aparece no convite.', 'ok');
+  } catch (err) {
+    $('capaSalvar').disabled = false;
+    capaAviso('Não foi possível salvar (' + (err.code || err.message) + ').', 'erro');
+  }
+};
+$('capaPadrao').onclick = async () => {
+  if (!confirm('Voltar para a foto original da capa?')) return;
+  try {
+    await deleteDoc(capaRef);
+    capaNova = null; $('capaSalvar').disabled = true; $('capaPrev').src = 'capa.jpg';
+    capaAviso('Pronto, voltou para a foto original.', 'ok');
+  } catch (err) { capaAviso('Não foi possível (' + (err.code || err.message) + ').', 'erro'); }
+};
 
 $('btnCsv').onclick = () => {
   const esc = v => `"${String(v ?? '').replace(/"/g, '""')}"`;

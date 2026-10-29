@@ -30,5 +30,15 @@ service cloud.firestore {
       // Só o dono lê e apaga
       allow read, delete: if ehDono();
     }
+
+    // Foto da capa: todos leem, só o dono troca (imagem até ~900 KB)
+    match /festaTheo8Config/{id} {
+      allow read: if true;
+      allow delete: if ehDono();
+      allow create, update: if ehDono()
+        && request.resource.data.keys().hasOnly(['img', 'quando'])
+        && request.resource.data.img is string
+        && request.resource.data.img.size() < 900000;
+    }
   }
 }
