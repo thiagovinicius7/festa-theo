@@ -51,7 +51,7 @@ li .x{border:none;background:none;color:var(--tinta-suave);font-size:.78rem;text
 .oculto{display:none!important}
 .tit{font-family:'Fredoka',sans-serif;font-size:1.2rem;margin-bottom:12px}
 .capaBox{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:start}
-.capaBox img{width:120px;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:3px solid var(--borda);background:var(--campo)}
+.capaBox img{width:120px;aspect-ratio:1536/2752;object-fit:cover;border-radius:10px;border:3px solid var(--borda);background:var(--campo)}
 .capaAcoes{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
 .capaAcoes label.btn{cursor:pointer}
 .capaAcoes button:disabled{opacity:.5;cursor:not-allowed}
@@ -105,7 +105,7 @@ li .x{border:none;background:none;color:var(--tinta-suave);font-size:.78rem;text
           <input type="file" id="capaArq" accept="image/*" class="oculto">
           <button class="btn sec" id="capaSalvar" disabled>Salvar nova capa</button>
           <button class="btn sec" id="capaPadrao">Voltar à foto original</button>
-          <p class="capaMsg" id="capaMsg">A foto aparece no convite para todos assim que você salvar.</p>
+          <p class="capaMsg" id="capaMsg">Tamanho da capa: 1536 × 2752 px (9:16). Fotos em outro formato são cortadas no centro.</p>
         </div>
       </div>
     </section>
@@ -187,36 +187,48 @@ $('abaVao').onclick = () => setAba('vao');
 $('abaNao').onclick = () => setAba('nao');
 $('busca').oninput = desenha;
 
-/* ---------- Foto da capa ---------- */
+/* ---------- Foto da capa (1536 × 2752, ≈9:16) ---------- */
+const CAPA_L = 1536, CAPA_A = 2752;
+const PARTE = 800000;          // caracteres por registro (limite do Firestore ≈ 1 MB)
+const MAX_PARTES = 6;
 const capaRef = doc(db, COLECAO_CONFIG, 'capa');
+const parteRef = i => doc(db, COLECAO_CONFIG, 'capa-' + i);
 let capaNova = null;
 function capaAviso(t, tipo = '') { const m = $('capaMsg'); m.textContent = t; m.className = 'capaMsg ' + tipo; }
 
+async function lerCapa() {
+  const snap = await getDoc(capaRef);
+  if (!snap.exists()) return null;
+  const meta = snap.data();
+  if (!meta.partes) return meta.img || null;
+  const docs = await Promise.all(Array.from({ length: meta.partes }, (_, i) => getDoc(parteRef(i + 1))));
+  return docs.map(d => (d.exists() && d.data().img) || '').join('');
+}
 async function carregaCapa() {
-  try {
-    const snap = await getDoc(capaRef);
-    $('capaPrev').src = (snap.exists() && snap.data().img) || 'capa.jpg';
-  } catch (e) { $('capaPrev').src = 'capa.jpg'; }
+  try { $('capaPrev').src = (await lerCapa()) || 'capa.jpg'; }
+  catch (e) { $('capaPrev').src = 'capa.jpg'; }
 }
 onAuthStateChanged(auth, u => { if (u && EMAILS_PAINEL.includes((u.email || '').toLowerCase())) carregaCapa(); });
 
-// Reduz a foto para caber no banco (máx. 1200 px, JPEG), baixando a qualidade se precisar
-function reduzImagem(arquivo) {
+// Corta no centro e redimensiona para exatamente 1536 × 2752 (JPEG)
+function preparaImagem(arquivo) {
   return new Promise((ok, falha) => {
     const url = URL.createObjectURL(arquivo);
     const img = new Image();
     img.onload = () => {
-      let lado = 1200, q = 0.85, dados;
-      do {
-        const esc = Math.min(1, lado / Math.max(img.width, img.height));
-        const c = document.createElement('canvas');
-        c.width = Math.round(img.width * esc); c.height = Math.round(img.height * esc);
-        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-        dados = c.toDataURL('image/jpeg', q);
-        if (q > 0.6) q -= 0.08; else lado -= 150;
-      } while (dados.length > 850000 && lado > 400);
+      const c = document.createElement('canvas');
+      c.width = CAPA_L; c.height = CAPA_A;
+      const esc = Math.max(CAPA_L / img.width, CAPA_A / img.height);
+      const w = img.width * esc, h = img.height * esc;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, CAPA_L, CAPA_A);
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, (CAPA_L - w) / 2, (CAPA_A - h) / 2, w, h);
       URL.revokeObjectURL(url);
-      dados.length > 850000 ? falha(new Error('grande')) : ok(dados);
+      let q = 0.9, dados;
+      do { dados = c.toDataURL('image/jpeg', q); q -= 0.07; }
+      while (dados.length > PARTE * MAX_PARTES && q > 0.5);
+      dados.length > PARTE * MAX_PARTES ? falha(new Error('grande')) : ok({ dados, orig: [img.width, img.height] });
     };
     img.onerror = () => falha(new Error('formato'));
     img.src = url;
@@ -227,31 +239,45 @@ $('capaArq').onchange = async e => {
   const f = e.target.files[0]; if (!f) return;
   capaAviso('Preparando a foto…');
   try {
-    capaNova = await reduzImagem(f);
+    const { dados, orig } = await preparaImagem(f);
+    capaNova = dados;
     $('capaPrev').src = capaNova;
     $('capaSalvar').disabled = false;
-    capaAviso('Confira a prévia e toque em "Salvar nova capa".');
+    const prop = orig[0] / orig[1], alvo = CAPA_L / CAPA_A;
+    const aviso = Math.abs(prop - alvo) > 0.03
+      ? ` Sua foto (${orig[0]}×${orig[1]}) não é 9:16, então as bordas foram cortadas.` : '';
+    capaAviso(`Prévia em 1536×2752.${aviso} Toque em "Salvar nova capa".`);
   } catch (err) {
     capaNova = null; $('capaSalvar').disabled = true;
     capaAviso('Não consegui ler essa imagem. Tente outra (JPG ou PNG).', 'erro');
   }
   e.target.value = '';
 };
+
 $('capaSalvar').onclick = async () => {
   if (!capaNova) return;
   $('capaSalvar').disabled = true; capaAviso('Salvando…');
   try {
-    await setDoc(capaRef, { img: capaNova, quando: serverTimestamp() });
+    const partes = [];
+    for (let i = 0; i < capaNova.length; i += PARTE) partes.push(capaNova.slice(i, i + PARTE));
+    for (let i = 0; i < partes.length; i++) {
+      capaAviso(`Salvando… ${i + 1}/${partes.length}`);
+      await setDoc(parteRef(i + 1), { img: partes[i], quando: serverTimestamp() });
+    }
+    await setDoc(capaRef, { partes: partes.length, quando: serverTimestamp() });
+    for (let i = partes.length + 1; i <= MAX_PARTES; i++) deleteDoc(parteRef(i)).catch(() => {});
     capaNova = null; capaAviso('Capa atualizada! Já aparece no convite.', 'ok');
   } catch (err) {
     $('capaSalvar').disabled = false;
     capaAviso('Não foi possível salvar (' + (err.code || err.message) + ').', 'erro');
   }
 };
+
 $('capaPadrao').onclick = async () => {
   if (!confirm('Voltar para a foto original da capa?')) return;
   try {
     await deleteDoc(capaRef);
+    for (let i = 1; i <= MAX_PARTES; i++) deleteDoc(parteRef(i)).catch(() => {});
     capaNova = null; $('capaSalvar').disabled = true; $('capaPrev').src = 'capa.jpg';
     capaAviso('Pronto, voltou para a foto original.', 'ok');
   } catch (err) { capaAviso('Não foi possível (' + (err.code || err.message) + ').', 'erro'); }

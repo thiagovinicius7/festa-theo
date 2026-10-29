@@ -31,14 +31,17 @@ service cloud.firestore {
       allow read, delete: if ehDono();
     }
 
-    // Foto da capa: todos leem, só o dono troca (imagem até ~900 KB)
+    // Foto da capa (1536×2752): todos leem, só o dono troca.
+    // 'capa' guarda quantas partes há; 'capa-1', 'capa-2'... guardam a imagem dividida.
     match /festaTheo8Config/{id} {
       allow read: if true;
       allow delete: if ehDono();
       allow create, update: if ehDono()
-        && request.resource.data.keys().hasOnly(['img', 'quando'])
-        && request.resource.data.img is string
-        && request.resource.data.img.size() < 900000;
+        && request.resource.data.keys().hasOnly(['img', 'partes', 'quando'])
+        && (!('img' in request.resource.data)
+            || (request.resource.data.img is string && request.resource.data.img.size() < 900000))
+        && (!('partes' in request.resource.data)
+            || (request.resource.data.partes is int && request.resource.data.partes >= 1 && request.resource.data.partes <= 6));
     }
   }
 }

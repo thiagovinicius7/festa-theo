@@ -81,9 +81,9 @@ main{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:30px 16px
 
 
 /* Capa (imagem escolhida pelo Thiago: capa.jpg) */
-.capa{position:relative;margin:0 auto 24px;max-width:440px;aspect-ratio:3/4;border-radius:8px;overflow:hidden;
+.capa{position:relative;margin:0 auto 24px;max-width:440px;aspect-ratio:1536/2752;border-radius:8px;overflow:hidden;
   border:3px solid var(--ouro);box-shadow:0 0 0 6px var(--papel-claro),0 0 0 9px var(--vermelho),0 18px 34px #3a241455}
-.capa img{width:100%;height:100%;object-fit:cover;object-position:50% 35%;display:block;animation:camera 18s ease-in-out infinite alternate}
+.capa img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block;animation:camera 18s ease-in-out infinite alternate}
 @keyframes camera{from{transform:scale(1.02) translateY(0)}to{transform:scale(1.14) translateY(-3%)}}
 .capa::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#fff0 55%,#f6e7c8cc 100%);pointer-events:none}
 .nuvem-capa{position:absolute;left:-60%;width:60%;height:60px;border-radius:50%;
@@ -437,13 +437,20 @@ function getDb() {
   return dbPromise;
 }
 
-/* Foto da capa trocada pelo painel (se houver) */
+/* Foto da capa trocada pelo painel (se houver) — pode vir dividida em partes */
 if (configurado) {
   getDb().then(async ({ db, fs }) => {
     const snap = await fs.getDoc(fs.doc(db, COLECAO_CONFIG, 'capa'));
-    const img = snap.exists() && snap.data().img;
+    if (!snap.exists()) return;
+    const meta = snap.data();
+    let img = meta.img || '';
+    if (meta.partes) {
+      const partes = await Promise.all(Array.from({ length: meta.partes }, (_, i) =>
+        fs.getDoc(fs.doc(db, COLECAO_CONFIG, 'capa-' + (i + 1)))));
+      img = partes.map(d => (d.exists() && d.data().img) || '').join('');
+    }
     const el = $('capaImg');
-    if (img && el) el.src = img;
+    if (img.startsWith('data:image/') && el) el.src = img;
   }).catch(e => console.warn('Capa padrão mantida:', e));
 }
 
