@@ -8,6 +8,7 @@ Uso:
 
 Gera, na pasta de saída:
   resumo.png   infográfico (1080 px de largura) com a arte do convite
+  email.html   corpo do e-mail em HTML (mesma arte, sem imagens)
   resumo.json  totais, para o texto do e-mail
 """
 import argparse, base64, datetime as dt, html, json, os, sys, urllib.request
@@ -190,6 +191,53 @@ body{{width:1080px;font-family:Nunito;color:#3a2414;background:linear-gradient(1
     return pagina, t
 
 
+def monta_email(t, textos):
+    """HTML de e-mail (tabelas + estilos inline) com a arte do convite."""
+    e = html.escape
+    nome = f'{textos.get("av", "AVATAR")} {textos.get("nm", "Theo")}'
+    dias = t["dias"]
+    falta = "É hoje! 🎉" if dias == 0 else ("Falta 1 dia" if dias == 1 else f"Faltam {dias} dias")
+    info = f'{textos.get("infoData", "30/11")} · {textos.get("infoHora", "16h")} · {textos.get("infoLocal", "Sítio Geranium")}'
+    def caixa(n, rot, sub, cor):
+        return (f'<td width="33%" style="padding:6px"><div style="background:{cor};border-radius:14px;padding:14px 6px;text-align:center;color:#fff">'
+                f'<div style="font:900 40px Georgia,serif;line-height:1">{n}</div>'
+                f'<div style="font:800 15px Arial,sans-serif;margin-top:4px">{rot}</div>'
+                f'<div style="font:12px Arial,sans-serif;opacity:.9">{sub}</div></div></td>')
+    if t["novos"]:
+        linhas = "".join(
+            f'<tr><td style="padding:7px 0;border-bottom:1px solid #f0e2c2;font:15px Arial,sans-serif;color:#3a2414">{e(n["nome"])}</td>'
+            f'<td style="padding:7px 0;border-bottom:1px solid #f0e2c2;font:bold 15px Arial,sans-serif;color:#b3322a;text-align:right">'
+            f'{"+" + str(n["total"]) if n["vai"] else "não vai"}</td></tr>' for n in t["novos"][:10])
+        novos = f'<table width="100%" cellpadding="0" cellspacing="0">{linhas}</table>'
+    else:
+        novos = '<p style="font:15px Arial,sans-serif;color:#6e5238;margin:0">Nenhuma nova resposta hoje.</p>'
+    agora = dt.datetime.now(TZ).strftime("%d/%m/%Y às %H:%M")
+    return f"""<div style="background:#f1e3c2;padding:24px 10px">
+<table align="center" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:linear-gradient(180deg,#d7ebf5,#f1e3c2 35%,#f0c98a);border-radius:12px">
+<tr><td style="padding:26px 22px 8px;text-align:center">
+<div style="display:inline-block;background:#b3322a;color:#fff8e8;font:bold 12px Georgia,serif;letter-spacing:3px;padding:7px 18px">RESUMO DAS CONFIRMAÇÕES</div>
+<div style="font:900 22px Georgia,serif;letter-spacing:6px;color:#7e1f19;margin-top:14px">{e(textos.get("av", "AVATAR"))}</div>
+<div style="font:italic bold 60px Georgia,serif;line-height:1;color:#b3322a;text-shadow:3px 3px 0 #f3d58a">{e(textos.get("nm", "Theo"))}</div>
+<div style="font:bold 14px Arial,sans-serif;color:#3a2414;margin-top:8px">{e(info)} — {falta}</div>
+</td></tr>
+<tr><td style="padding:14px 16px 20px">
+<div style="background:#fff8e8;border:2px solid #e2c690;border-top:10px solid #8e2a21;border-bottom:10px solid #8e2a21;border-radius:6px;padding:20px 14px">
+<div style="text-align:center"><div style="font:900 76px Georgia,serif;line-height:1;color:#b3322a">{t["total"]}</div>
+<div style="font:bold 15px Georgia,serif;letter-spacing:2px;color:#7e1f19">PESSOAS CONFIRMADAS</div></div>
+<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px"><tr>
+{caixa(t["adultos"], "Adultos", "18 anos ou mais", "#e2552b")}
+{caixa(t["adolescentes"], "Adolescentes", "10 a 17 anos", "#5f8a3a")}
+{caixa(t["criancas"], "Crianças", "menores de 10", "#2f7fc1")}
+</tr></table>
+<p style="text-align:center;font:bold 15px Arial,sans-serif;color:#6e5238;margin:14px 0 0">Respostas "vou": <b style="color:#3a2414">{t["respostas_vao"]}</b> &nbsp;·&nbsp; Não vão: <b style="color:#3a2414">{t["respostas_nao"]}</b></p>
+<div style="border-top:2px dashed #e2c690;margin-top:16px;padding-top:12px">
+<div style="font:bold 15px Georgia,serif;color:#7e1f19;margin-bottom:6px">Novas respostas nas últimas 24h</div>{novos}</div>
+</div>
+<p style="text-align:center;margin:16px 0 0"><a href="https://thiagovinicius7.github.io/festa-theo/painel.html" style="display:inline-block;background:#b3322a;color:#fff8e8;text-decoration:none;font:bold 14px Arial,sans-serif;padding:11px 20px;border-radius:10px">Abrir o painel completo</a></p>
+<p style="text-align:center;font:12px Arial,sans-serif;color:#6e5238;margin:12px 0 0">{e(nome)} · atualizado em {agora}</p>
+</td></tr></table></div>"""
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--senha")
@@ -215,6 +263,8 @@ def main():
         pg.wait_for_timeout(800)
         pg.screenshot(path=os.path.join(a.saida, "resumo.png"), full_page=True)
         b.close()
+    with open(os.path.join(a.saida, "email.html"), "w", encoding="utf-8") as f:
+        f.write(monta_email(totais, textos))
     with open(os.path.join(a.saida, "resumo.json"), "w", encoding="utf-8") as f:
         json.dump(totais, f, ensure_ascii=False, indent=2)
     print(json.dumps(totais, ensure_ascii=False))
