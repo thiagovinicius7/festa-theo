@@ -199,10 +199,12 @@ def monta_email(t, textos):
     falta = "É hoje! 🎉" if dias == 0 else ("Falta 1 dia" if dias == 1 else f"Faltam {dias} dias")
     info = f'{textos.get("infoData", "30/11")} · {textos.get("infoHora", "16h")} · {textos.get("infoLocal", "Sítio Geranium")}'
     def caixa(n, rot, sub, cor):
-        return (f'<td width="33%" style="padding:6px"><div style="background:{cor};border-radius:14px;padding:14px 6px;text-align:center;color:#fff">'
-                f'<div style="font:900 40px Georgia,serif;line-height:1">{n}</div>'
-                f'<div style="font:800 15px Arial,sans-serif;margin-top:4px">{rot}</div>'
-                f'<div style="font:12px Arial,sans-serif;opacity:.9">{sub}</div></div></td>')
+        # cor no próprio <td> (bgcolor + background-color): o app do Gmail descarta background em <div>
+        return (f'<td width="33%" valign="top" style="padding:6px"><table width="100%" cellpadding="0" cellspacing="0" role="presentation"><tr>'
+                f'<td bgcolor="{cor}" height="126" valign="middle" style="background-color:{cor};border-radius:14px;padding:14px 6px;text-align:center;height:126px;vertical-align:middle">'
+                f'<div style="font:900 40px Georgia,serif;line-height:1;color:#ffffff">{n}</div>'
+                f'<div style="font:800 15px Arial,sans-serif;margin-top:4px;color:#ffffff">{rot}</div>'
+                f'<div style="font:12px Arial,sans-serif;color:#ffffff">{sub}</div></td></tr></table></td>')
     if t["novos"]:
         linhas = "".join(
             f'<tr><td style="padding:7px 0;border-bottom:1px solid #f0e2c2;font:15px Arial,sans-serif;color:#3a2414">{e(n["nome"])}</td>'
@@ -212,16 +214,16 @@ def monta_email(t, textos):
     else:
         novos = '<p style="font:15px Arial,sans-serif;color:#6e5238;margin:0">Nenhuma nova resposta hoje.</p>'
     agora = dt.datetime.now(TZ).strftime("%d/%m/%Y às %H:%M")
-    return f"""<div style="background:#f1e3c2;padding:24px 10px">
-<table align="center" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:linear-gradient(180deg,#d7ebf5,#f1e3c2 35%,#f0c98a);border-radius:12px">
+    return f"""<div style="background-color:#f1e3c2;padding:24px 10px">
+<table align="center" width="100%" cellpadding="0" cellspacing="0" bgcolor="#f6ddb0" style="max-width:520px;background-color:#f6ddb0;background:linear-gradient(180deg,#d7ebf5,#f1e3c2 35%,#f0c98a);border-radius:12px">
 <tr><td style="padding:26px 22px 8px;text-align:center">
-<div style="display:inline-block;background:#b3322a;color:#fff8e8;font:bold 12px Georgia,serif;letter-spacing:3px;padding:7px 18px">RESUMO DAS CONFIRMAÇÕES</div>
+<table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr><td bgcolor="#b3322a" style="background-color:#b3322a;color:#fff8e8;font:bold 12px Georgia,serif;letter-spacing:3px;padding:7px 18px">RESUMO DAS CONFIRMAÇÕES</td></tr></table>
 <div style="font:900 22px Georgia,serif;letter-spacing:6px;color:#7e1f19;margin-top:14px">{e(textos.get("av", "AVATAR"))}</div>
 <div style="font:italic bold 60px Georgia,serif;line-height:1;color:#b3322a;text-shadow:3px 3px 0 #f3d58a">{e(textos.get("nm", "Theo"))}</div>
 <div style="font:bold 14px Arial,sans-serif;color:#3a2414;margin-top:8px">{e(info)} — {falta}</div>
 </td></tr>
 <tr><td style="padding:14px 16px 20px">
-<div style="background:#fff8e8;border:2px solid #e2c690;border-top:10px solid #8e2a21;border-bottom:10px solid #8e2a21;border-radius:6px;padding:20px 14px">
+<div style="background-color:#fff8e8;border:2px solid #e2c690;border-top:10px solid #8e2a21;border-bottom:10px solid #8e2a21;border-radius:6px;padding:20px 14px">
 <div style="text-align:center"><div style="font:900 76px Georgia,serif;line-height:1;color:#b3322a">{t["total"]}</div>
 <div style="font:bold 15px Georgia,serif;letter-spacing:2px;color:#7e1f19">PESSOAS CONFIRMADAS</div></div>
 <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px"><tr>
@@ -233,7 +235,7 @@ def monta_email(t, textos):
 <div style="border-top:2px dashed #e2c690;margin-top:16px;padding-top:12px">
 <div style="font:bold 15px Georgia,serif;color:#7e1f19;margin-bottom:6px">Novas respostas nas últimas 24h</div>{novos}</div>
 </div>
-<p style="text-align:center;margin:16px 0 0"><a href="https://thiagovinicius7.github.io/festa-theo/painel.html" style="display:inline-block;background:#b3322a;color:#fff8e8;text-decoration:none;font:bold 14px Arial,sans-serif;padding:11px 20px;border-radius:10px">Abrir o painel completo</a></p>
+<table align="center" cellpadding="0" cellspacing="0" role="presentation" style="margin-top:16px"><tr><td bgcolor="#b3322a" style="background-color:#b3322a;border-radius:10px;padding:11px 20px"><a href="https://thiagovinicius7.github.io/festa-theo/painel.html" style="color:#fff8e8;text-decoration:none;font:bold 14px Arial,sans-serif">Abrir o painel completo</a></td></tr></table>
 <p style="text-align:center;font:12px Arial,sans-serif;color:#6e5238;margin:12px 0 0">{e(nome)} · atualizado em {agora}</p>
 </td></tr></table></div>"""
 
