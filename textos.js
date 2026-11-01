@@ -37,8 +37,9 @@ export const TEXTOS = [
   { g: 'Formulário', k: 'lblVai', rot: 'Pergunta "vai?"', padrao: 'Você vai?' },
   { g: 'Formulário', k: 'btnSim', rot: 'Botão "vou"', padrao: '🥋 Vou treinar!' },
   { g: 'Formulário', k: 'btnNao', rot: 'Botão "não vou"', padrao: 'Não poderei' },
-  { g: 'Formulário', k: 'lblPessoas', rot: 'Pergunta das pessoas', padrao: 'Quantas pessoas vão?' },
-  { g: 'Formulário', k: 'lblPessoasSub', rot: 'Complemento da pergunta', padrao: '(conte todo mundo, inclusive você)' },
+  { g: 'Formulário', k: 'jaContado', rot: 'Aviso de que quem preenche já conta', padrao: '✔ Você já está contado(a)!' },
+  { g: 'Formulário', k: 'lblAcomp', rot: 'Pergunta dos acompanhantes', padrao: 'Quem vai com você?' },
+  { g: 'Formulário', k: 'lblAcompSub', rot: 'Complemento da pergunta', padrao: '(acompanhantes, sem contar você)' },
   { g: 'Formulário', k: 'criancas', rot: 'Crianças – nome', padrao: 'Crianças' },
   { g: 'Formulário', k: 'criancasSub', rot: 'Crianças – idade', padrao: 'menores de 10 anos' },
   { g: 'Formulário', k: 'adolescentes', rot: 'Adolescentes – nome', padrao: 'Adolescentes' },
@@ -54,7 +55,6 @@ export const TEXTOS = [
   { g: 'Formulário', k: 'btnEnviarNao', rot: 'Botão enviar (quando não vai)', padrao: 'Enviar resposta' },
   { g: 'Formulário', k: 'btnEnviando', rot: 'Botão enquanto envia', padrao: 'Enviando…' },
   { g: 'Formulário', k: 'erroNome', rot: 'Erro: sem nome', padrao: 'Escreva o nome do convidado 🙂' },
-  { g: 'Formulário', k: 'erroPessoas', rot: 'Erro: sem pessoas', padrao: 'Conte quantas pessoas vão (use o +).' },
   { g: 'Formulário', k: 'erroEnvio', rot: 'Erro: falha no envio', padrao: 'Não deu para enviar agora. Confira a internet e tente de novo.' },
 
   // Confirmação

@@ -160,6 +160,7 @@ textarea{resize:vertical;min-height:70px}
   font-size:1.3rem;font-weight:800;cursor:pointer;color:var(--vermelho-esc);transition:transform .1s}
 .passo button:active{transform:scale(.88)}
 .passo output{min-width:30px;text-align:center;font-family:'Cinzel',serif;font-size:1.35rem}
+.jaContado{margin:14px 0 -4px;font-weight:800;font-size:.9rem;color:var(--terra)}
 .total{text-align:center;margin-top:10px;font-weight:700;color:var(--tinta-suave)}
 .total b{color:var(--vermelho);font-size:1.15rem}
 .oculto{display:none!important}
@@ -307,7 +308,8 @@ footer{position:relative;z-index:1;text-align:center;font-size:.8rem;color:var(-
       </div>
 
       <div id="blocoPessoas">
-        <label class="rot"><span data-t="lblPessoas">Quantas pessoas vão?</span> <span style="font-weight:600;color:var(--tinta-suave)" data-t="lblPessoasSub">(conte todo mundo, inclusive você)</span></label>
+        <p class="jaContado" data-t="jaContado">✔ Você já está contado(a)!</p>
+        <label class="rot"><span data-t="lblAcomp">Quem vai com você?</span> <span style="font-weight:600;color:var(--tinta-suave)" data-t="lblAcompSub">(acompanhantes, sem contar você)</span></label>
         <div class="pessoas">
           <div class="linha" style="--c:var(--agua)">
             <div class="tx"><strong data-t="criancas">Crianças</strong><span data-t="criancasSub">menores de 10 anos</span></div>
@@ -413,7 +415,7 @@ let vai = true;
 const $ = id => document.getElementById(id);
 function atualizaTotal() {
   for (const k in qtd) $(k).textContent = qtd[k];
-  $('total').textContent = qtd.criancas + qtd.adolescentes + qtd.adultos;
+  $('total').textContent = 1 + qtd.criancas + qtd.adolescentes + qtd.adultos; // quem preenche + acompanhantes
 }
 document.querySelectorAll('.passo button').forEach(b => b.addEventListener('click', () => {
   const k = b.dataset.alvo;
@@ -432,7 +434,7 @@ $('nao').onclick = () => setVai(false);
 
 /* Lembra a última resposta neste aparelho */
 try {
-  const salvo = JSON.parse(localStorage.getItem('festaTheo8') || 'null');
+  const salvo = JSON.parse(localStorage.getItem('festaTheo8v2') || 'null');
   if (salvo) { $('nome').value = salvo.nome || ''; Object.assign(qtd, salvo.qtd || {}); setVai(salvo.vai !== false); $('recado').value = salvo.recado || ''; }
 } catch (e) {}
 atualizaTotal();
@@ -486,15 +488,13 @@ $('form').addEventListener('submit', async ev => {
   ev.preventDefault();
   const msg = $('msg'); msg.className = 'msg'; msg.textContent = '';
   const nome = $('nome').value.trim();
-  const total = qtd.criancas + qtd.adolescentes + qtd.adultos;
   if (nome.length < 2) { msg.className = 'msg erro'; msg.textContent = T('erroNome'); $('nome').focus(); return; }
-  if (vai && total < 1) { msg.className = 'msg erro'; msg.textContent = T('erroPessoas'); return; }
 
   const dados = {
     nome, vai,
     criancas: vai ? qtd.criancas : 0,
     adolescentes: vai ? qtd.adolescentes : 0,
-    adultos: vai ? qtd.adultos : 0,
+    adultos: vai ? qtd.adultos + 1 : 0, // +1 = quem preencheu
     recado: $('recado').value.trim().slice(0, 500)
   };
   dados.total = dados.criancas + dados.adolescentes + dados.adultos;
@@ -507,7 +507,7 @@ $('form').addEventListener('submit', async ev => {
     } else {
       await new Promise(r => setTimeout(r, 700)); // modo de pré-visualização
     }
-    try { localStorage.setItem('festaTheo8', JSON.stringify({ nome, vai, qtd, recado: dados.recado })); } catch (e) {}
+    try { localStorage.setItem('festaTheo8v2', JSON.stringify({ nome, vai, qtd, recado: dados.recado })); } catch (e) {}
     $('okTitulo').textContent = vai ? T('okTitSim') : T('okTitNao');
     $('okTexto').textContent = vai ? T('okTxtSim', { total: dados.total }) : T('okTxtNao');
     const u = $('uniao'); u.classList.remove('on'); void u.offsetWidth; u.classList.add('on');
