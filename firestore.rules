@@ -7,6 +7,12 @@ service cloud.firestore {
         && request.auth.token.email in ['thiagovinicius7@gmail.com'];
     }
 
+    // Conta só de leitura usada pelo resumo diário por e-mail
+    function ehRelatorio() {
+      return request.auth != null
+        && request.auth.token.email == 'relatorio@festa-theo-3f43d.firebaseapp.com';
+    }
+
     function qtd(v) {
       return v is int && v >= 0 && v <= 30;
     }
@@ -27,8 +33,9 @@ service cloud.firestore {
     match /festaTheo8/{id} {
       // Convidados (sem login) podem confirmar ou alterar a própria resposta
       allow create, update: if confirmacaoValida();
-      // Só o dono lê e apaga
-      allow read, delete: if ehDono();
+      // Só o dono lê e apaga; o relatório só lê
+      allow read: if ehDono() || ehRelatorio();
+      allow delete: if ehDono();
     }
 
     // Foto da capa (1536×2752) e textos do convite: todos leem, só o dono troca.
