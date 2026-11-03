@@ -10,7 +10,7 @@ export const firebaseConfig = {
 };
 
 // Quem pode abrir o painel (tem que ser igual ao que está em firestore.rules)
-export const EMAILS_PAINEL = ["thiagovinicius7@gmail.com"];
+export const EMAILS_PAINEL = ["thiagovinicius7@gmail.com", "luanachb@gmail.com"];
 
 // Coleção no Firestore
 export const COLECAO = "festaTheo8";

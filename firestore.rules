@@ -4,7 +4,7 @@ service cloud.firestore {
 
     function ehDono() {
       return request.auth != null
-        && request.auth.token.email in ['thiagovinicius7@gmail.com'];
+        && request.auth.token.email in ['thiagovinicius7@gmail.com', 'luanachb@gmail.com'];
     }
 
     // Conta só de leitura usada pelo resumo diário por e-mail
